@@ -1,0 +1,28 @@
+Design a web store complete with products, reviews, ordering capabilities, and delivery. You will own this end to end meaning that Wallymart has decided to even own the delivery of the products and not outsource to USPS, UPS, etc.
+
+
+
+Database tables:
+customers: customer_id, name, address, credit_card_info
+items: item_id, item_name, item_description, price, review_id
+orders: order_id, item_id, quantity
+reviews: review_id, item_id, customer_id, rating, review_text
+employees: employee_id, name, service_location  # delivery
+
+
+
+Need class to hold each of these in memory before they are written to the database
+
+Use case:
+1. Customer goes to a webpage that displays a list of items available for purchase
+2. Customer clicks on an item and adds it to shopping cart
+3. Customer checks out the shopping cart
+4. Form asks customer for credit card info
+5. Customer orders item, the order gets written to the orders table
+
+6. Unfulfilled orders are sent to delivery driver  # this should be decoupled from the previous steps
+
+
+Maybe split up the project into a wallymart and wallymart_django
+Have wallymart_django handle the routing for django and call on wallymart
+

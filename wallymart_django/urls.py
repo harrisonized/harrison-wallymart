@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from wallymart import views
+from wallymart_django import views
 
 
 urlpatterns = [
     path('', views.index, name='index'),  # homepage
-    path('store/', include('wallymart.apps.store.urls')),  # any pages related to wallymart
+    path('store/', include('wallymart_django.apps.store.urls')),  # any pages related to wallymart
     path('admin/', admin.site.urls),
 ]

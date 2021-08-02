@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'wallymart.urls'
+ROOT_URLCONF = 'wallymart_django.urls'
 
 TEMPLATES = [
     {
@@ -67,7 +67,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wallymart.wsgi.application'
+WSGI_APPLICATION = 'wallymart_django.wsgi.application'
 
 
 # Database
