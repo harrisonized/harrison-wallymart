@@ -20,6 +20,6 @@ from wallymart import views
 
 urlpatterns = [
     path('', views.index, name='index'),  # homepage
-    path('online-store/', include('wallymart.apps.store.urls')),  # any pages related to wallymart
+    path('store/', include('wallymart.apps.store.urls')),  # any pages related to wallymart
     path('admin/', admin.site.urls),
 ]
