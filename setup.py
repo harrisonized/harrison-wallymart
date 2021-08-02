@@ -7,9 +7,9 @@ with open(f'{dir_path}/README.md') as f:
 
 setup(
     name='wallymart',
-    description='',
+    description='UCSC OOAD Class, Project X, built on django',
     long_description=description,
-    version='0.0',
+    version='1.0',
     author='Harrison Wang',
     author_email='harrison.c.wang@gmail.com',
     # packages=find_packages(exclude=['tests']),

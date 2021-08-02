@@ -1,10 +1,29 @@
-cd ~/github/harrison-wallymart
 # see: https://docs.djangoproject.com/en/3.2/intro/tutorial01/
+
+cd ~/github
 django-admin startproject wallymart
-cd wallymart
-python manage.py startapp app
-# create app/views.py and modify wallymart/urls.py
+mv wallymart harrison-wallymart
+cd harrison-wallymart
+mkdir apps
+mkdir apps/store
+python manage.py startapp store wallymart/apps/store
+
+# Add the following to wallymart/apps/store/views.py
+# # from django.http import HttpResponse
+# # def index(request):
+# #     return HttpResponse("This is the wallymart entry page.")
+
+# Create and add the following to wallymart/apps/store/urls.py
+# # from django.urls import path
+# # from . import views
+# # urlpatterns = [
+# #     path('', views.index, name='index'),
+# # ]
+
+
+# Apply the migration
+python manage.py migrate
+
 
 # entry point
-python wallymart/manage.py migrate
-python wallymart/manage.py runserver
+python manage.py runserver
