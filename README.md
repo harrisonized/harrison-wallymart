@@ -13,3 +13,34 @@ You are in the driver seat.
 
 Option #1: Design a web store complete with products, reviews, ordering capabilities, and delivery. You will own this end to end meaning that Wallymart has decided to even own the delivery of the products and not outsource to USPS, UPS, etc.
 
+
+
+## Directory Structure
+
+```
+harrison-wallymart/
+├── wallymart/
+│   ├── wallymart/
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── app
+│   │   ├── migrations/
+│   │   │   └── __init__.py
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── models.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   └── db.sqlite3
+├── ref/
+│   └── notes.txt
+├── requirements.txt
+├── setup.py
+└── README.md
+```
+
