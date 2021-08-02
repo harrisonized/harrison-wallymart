@@ -1,6 +1,6 @@
 python manage.py createsuperuser
 
-# Username: harrison
+# Username: harrison.wang
 # Email address: harrison.c.wang@gmail.com
 # Password: password
 # Password (again): password
