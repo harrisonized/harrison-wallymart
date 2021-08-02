@@ -1,0 +1,11 @@
+python manage.py createsuperuser
+
+# Username: harrison
+# Email address: harrison.c.wang@gmail.com
+# Password: password
+# Password (again): password
+
+Bypass password validation and create user anyway? [y/N]: y
+Superuser created successfully.
+
+# Should remove this if you are deploying to Heroku
