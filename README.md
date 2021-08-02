@@ -1,4 +1,12 @@
+
+
 ## Introduction
+
+Object oriented back-end will be contained in `wallymart`, everything front-end will be contained in `wallymart_django`.
+
+
+
+## Project X Prompt
 
 For those students who have no ideas or just want something to work on, you may choose this idea without my permission.
 

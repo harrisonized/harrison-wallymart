@@ -19,10 +19,8 @@ Use case:
 3. Customer checks out the shopping cart
 4. Form asks customer for credit card info
 5. Customer orders item, the order gets written to the orders table
-
 6. Unfulfilled orders are sent to delivery driver  # this should be decoupled from the previous steps
 
 
-Maybe split up the project into a wallymart and wallymart_django
-Have wallymart_django handle the routing for django and call on wallymart
 
+Should be noted that front end is not going to be OOP.
