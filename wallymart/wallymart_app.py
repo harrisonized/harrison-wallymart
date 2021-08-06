@@ -3,6 +3,7 @@
 import os
 import logging
 import argparse
+from wallymart.credential_manager.credentials import Credentials
 from wallymart.utils.logger_configurator import LoggerConfigurator
 
 
@@ -11,6 +12,8 @@ class WallymartApp:
         self._log_filename = "wallymart"
         self._args = args
         self._logger = logging.getLogger(__name__)
+        self._credentials = None
+        self._authenticated = False
 
         self._parse_args()  # updates args
         self._configure_log()  # updates logger
@@ -44,25 +47,67 @@ class WallymartApp:
         """
         self._logger.log(msg, level)
 
+    def homepage(self):
+        """Home page
+        Need seperate login for employees
+        """
+        self.log("""Welcome to Wallymart""")  # put something pretty here
+        while True:
+            sign_up_or_log_in = input("Please choose: (1) sign up, (2) log in: ")
+            if sign_up_or_log_in not in ('1', '2'):
+                print("Please pick a valid choice")
+            else:
+                break
+        self.log(f"Please choose: (1) sign up, (2) log in: {sign_up_or_log_in}")
+        return sign_up_or_log_in
+
+    def signup_page(self):
+        username = input("Username: ")
+        password = input("Password: ")
+        self._credentials = Credentials(username, password)
+        self.log(
+            f"username: {self._credentials.get_username()} \n" \
+            f"password: {self._credentials.get_password()}"
+        )
+
+    def login_page(self):
+        username = input("Username: ")
+        password = input("Password: ")
+        self._credentials = Credentials(username, password)
+        self.log(
+            f"username: {self._credentials.get_username()} \n" \
+            f"password: {self._credentials.get_password()}"
+        )
+        return True
+
+    def customer_portal(self):
+        # automatically display items
+        # write review
+        pass
+
+    def employee_portal(self):
+        # display items that need to be delivered
+        # be able to mark items that are delivered
+        pass
+
     def run(self):
         """main function
         """
 
-        # Home page
-        self.log("""Welcome to Wallymart""")  # put something pretty here
+        # sign up or log in
+        while not self._authenticated:
+            sign_up_or_log_in = self.homepage()
+            if sign_up_or_log_in=='1':
+                self.signup_page()
+                self.log("User created!")
+            if sign_up_or_log_in=='2':
+                self._authenticated = self.login_page()
+
+        self.log("Logged in!")
 
 
-        # select login or sign up
-        while True:
-            choice = input("Please choose: (1) sign up, (2) log in: ")
-            if choice not in ('1', '2'):
-                print("Please pick a valid choice")
-            else:
-                break
 
-        self.log(f"Please choose: (1) sign up, (2) log in: {choice}")
-
-        
+        # miscellaneous
         # module to create a customer or employee
         # module to save to flat file
         # module to display products with reviews
