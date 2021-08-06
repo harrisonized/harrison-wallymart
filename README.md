@@ -1,14 +1,10 @@
-
-
 ## Introduction
 
-Object oriented back-end will be contained in `wallymart`, everything front-end will be contained in `wallymart_django`.
+This is the project for the UCSC's SEQA.X401 [Object-Oriented Analysis and Design](https://www.ucsc-extension.edu/courses/object-oriented-analysis-and-design/) couse. The idea is to create an app using the object-oriented programming paradigm that utilizes 10 or more classes. I will first be building this as a command-line tool, but if I have extra time, I would love to put the front-end on the Django framework. If I do not get to it by the time this project is due, I will be definitely be returning to this after the class is over, as I think this could be an important portfolio piece and is good for my general skills development.
 
 
 
 ## Project X Prompt
-
-For those students who have no ideas or just want something to work on, you may choose this idea without my permission.
 
 Wallymart has asked you to take on AmazingCo in the online e-commerce space. Wallymart can't seem to catch up, but they have identified several areas that are crucial to a successful e-commerce site:
 • high quality customer reviews
@@ -38,17 +34,16 @@ python setup.py develop
 
 
 
-## Command Line App
-
-Entry point is `wallymart/wallymart_app`.
+## Command Line Entry Point
 
 ```django
-./wallymart/wallymart_app.py
+./run-wallymart.sh
 ```
 
-Alternatively:
+
+
+## Django Entry Point
 
 ```django
-./wallymart_app.sh
+python manage.py runserver
 ```
-
