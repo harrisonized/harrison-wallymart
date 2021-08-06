@@ -8,35 +8,61 @@ from wallymart.utils.logger_configurator import LoggerConfigurator
 
 class WallymartApp:
     def __init__(self, args=None):
-        self.args = args
-        self.logger = logging.getLogger(__name__)
-        self.script_name = "wallymart"
-        self.parse_args()
-        self.configure_log()
+        self._log_filename = "wallymart"
+        self._args = args
+        self._logger = logging.getLogger(__name__)
 
-    def parse_args(self):
+        self._parse_args()  # updates args
+        self._configure_log()  # updates logger
+
+    # ----------------------------------------------------------------------
+    # Private
+
+    def _parse_args(self):
         parser = argparse.ArgumentParser(description='')
         parser.add_argument("-l", "--log-dir", dest="log_dir", default='logs', action="store",
                             required=False, help="set the directory for storing log files")
         parser.add_argument('--debug', action='store_true',
                             help='print debug messages')
-        self.args = parser.parse_args()
+        self._args = parser.parse_args()
 
-    def configure_log(self, args=None):
+    def _configure_log(self, args=None):
         if args is None:
-            args = self.args
+            args = self._args
 
         os.makedirs(args.log_dir, exist_ok=True)
-        self.logger = LoggerConfigurator(
-            filename=f'{args.log_dir}/{self.script_name}',
+        self._logger = LoggerConfigurator(
+            filename=f'{args.log_dir}/{self._log_filename}',
             level=logging.DEBUG if args.debug else logging.INFO
         )
+
+    # ----------------------------------------------------------------------
+    # Public
+
+    def log(self, msg, level=None):
+        """Convenience function
+        """
+        self._logger.log(msg, level)
 
     def run(self):
         """main function
         """
-        self.logger.log('msg')
 
+        # Home page
+        self.log("""Welcome to Wallymart""")  # put something pretty here
+
+
+        # select login or sign up
+        while True:
+            choice = input("Please choose: (1) sign up, (2) log in: ")
+            if choice not in ('1', '2'):
+                print("Please pick a valid choice")
+            else:
+                break
+
+        self.log(f"Please choose: (1) sign up, (2) log in: {choice}")
+
+        
         # module to create a customer or employee
         # module to save to flat file
         # module to display products with reviews

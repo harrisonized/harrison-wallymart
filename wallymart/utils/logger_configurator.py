@@ -22,11 +22,13 @@ class LoggerConfigurator:
         self.level = level
 
         self.logger.setLevel(self.level)
-        self.configure_handler('stream')
-        self.configure_handler('file')
+        self._configure_handler('file')
+        self._configure_handler('stream', '%(message)s')
 
-    def configure_handler(self, handler):
+    # ----------------------------------------------------------------------
+    # Private
 
+    def _configure_handler(self, handler, msg_format=None):
         if handler=='file':
             now = dt.datetime.now().strftime('%Y%m%d_%H%M%S%f')
             handler = logging.FileHandler(f"{self.filename}-{now}.log")
@@ -34,11 +36,16 @@ class LoggerConfigurator:
             handler = logging.StreamHandler()
         else:
             raise(KeyError, "Choose one: ['file', 'stream']")
+        if msg_format is None:
+            msg_format = self.msg_format
 
         handler.setLevel(self.level)
-        formatter = logging.Formatter(self.msg_format, self.date_format)
+        formatter = logging.Formatter(msg_format, self.date_format)
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
+
+    # ----------------------------------------------------------------------
+    # Public
 
     def log(self, msg, level=None):
         if level is None:
