@@ -20,15 +20,12 @@ class LoggerConfigurator:
         self.logger = logger
         self.filename = filename
         self.level = level
-
         self.logger.setLevel(self.level)
-        self._configure_handler('file')
-        self._configure_handler('stream', '%(message)s')
 
     # ----------------------------------------------------------------------
     # Private
 
-    def _configure_handler(self, handler, msg_format=None):
+    def _add_handler(self, handler, msg_format=None):
         if handler=='file':
             now = dt.datetime.now().strftime('%Y%m%d_%H%M%S%f')
             handler = logging.FileHandler(f"{self.filename}-{now}.log")
@@ -57,3 +54,9 @@ class LoggerConfigurator:
 
     def debug(self, msg):
         self.logger.debug(msg)
+
+    def add_file_handler(self):
+        self._add_handler('file')
+
+    def add_stream_handler(self):
+        self._add_handler('stream', '%(message)s')
