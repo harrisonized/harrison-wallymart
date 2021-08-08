@@ -15,10 +15,10 @@ class Credentials:
     # Public
 
     def set_username(self, username):
-        self._username = username
+        self._username = CredentialEncoder(username, 'md5').item
 
     def set_password(self, password):
-        self._password = password
+        self._password = CredentialEncoder(password, 'sha256').item
 
     def get_username(self):
         return self._username

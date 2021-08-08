@@ -17,4 +17,4 @@ class TestConfig(unittest.TestCase):
                 assert os.path.exists(file), f"{filename} does not exist"
 
 if __name__ == '__main__':
-    unittest.main(
+    unittest.main()

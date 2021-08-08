@@ -32,8 +32,8 @@ class DatabaseConfigurator:
         if not os.path.exists(file):
             df = pd.DataFrame(columns=[
                 'customer_id',
-                'customer_username'
-                'customer_password'
+                'customer_username',
+                'customer_password',
             ])
             df.to_csv(f'{self._repo_dir}/{self.data_dir}/{filename}', index=None)
             
