@@ -39,7 +39,7 @@ class Pages(CustomerPortal, EmployeePortal):
         logger.log(f"Are you a: (1) customer or (2) employee? {customer_or_employee}")
 
         while True:
-            signup_or_login = input("Please choose: (1) create account, (2) log in: ")
+            signup_or_login = input("Please choose: (1) create account, (2) log in ")
             if signup_or_login not in ('1', '2'):
                 print("Please pick a valid choice")
             else:

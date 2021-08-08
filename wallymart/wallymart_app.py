@@ -20,7 +20,7 @@ class WallymartApp:
         self._logger = logging.getLogger(__name__)
         self._username = ''
         self._authenticated = False
-        self._account_type = None  # 'customer' or 'employee'
+        self._customer_or_employee = None
         self._pages = Pages()
         self._shopping_cart = None
 
@@ -76,12 +76,43 @@ class WallymartApp:
 
         # Log in
         while not self._authenticated:
-            customer_or_employee, signup_or_login = self._pages.home_page()
+            self._customer_or_employee, signup_or_login = self._pages.home_page()
             if signup_or_login=='1':
-                self._pages.signup_page(customer_or_employee)
-            if signup_or_login=='2':
-                self._authenticated, self._username = self._pages.login_page(customer_or_employee)
+                self._pages.signup_page(self._customer_or_employee)
+            elif signup_or_login=='2':
+                self._authenticated, self._username = self._pages.login_page(self._customer_or_employee)
+            else:
+                pass
+        
         self.log(f'Logging in as {self._username}...')
+
+        # employee portal
+        if self._customer_or_employee == '2':
+            while self._authenticated:
+                employee_choice = self._pages.employee_home(self._username)
+                if employee_choice=='1':
+                    self._pages.delivery_page()
+                elif employee_choice=='2':
+                    self._pages.view_products_page()
+                elif employee_choice=='3':
+                    self._pages.add_products_page()
+                elif employee_choice=='4':
+                    self._pages.update_profile_page(self._username)
+                elif employee_choice=='5':
+                    self._authenticated = False
+                    self.log(f'Logging out of {self._username}...')
+                    self.log('Thank you for using Wallymart!')
+                else:
+                    pass
+
+        # ----------------------------------------------------------------------
+        # Employee Pages       
+
+        # Employee Portal
+        # (1): Update profile
+        # (2): Add new product
+        # (3): View Orders
+        # (4): Update order
 
 
         # ----------------------------------------------------------------------
@@ -126,14 +157,7 @@ class WallymartApp:
         # (2): Add shipping address
         # (3): Submit order -> return to customer portal
 
-        # ----------------------------------------------------------------------
-        # Employee Pages       
 
-        # Employee Portal
-        # (1): Update profile
-        # (2): Add new product
-        # (3): View Orders
-        # (4): Update order
 
         
 

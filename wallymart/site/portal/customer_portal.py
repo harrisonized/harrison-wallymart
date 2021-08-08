@@ -4,8 +4,8 @@
 """
 
 class CustomerPortal:
-    """Inherit through Pages
-    """
+    def __init__(self, logger=None):
+        self._logger = logger or logging.getLogger(__name__)
 
     # ----------------------------------------------------------------------
     # Public
