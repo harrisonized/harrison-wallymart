@@ -11,12 +11,12 @@ class DatabaseConfigurator:
     """
     # config
     filename_for_table_name = {
-        'credentials': 'credentials',  # customer_id, customer_username, customer_password
-        'customers': 'customers',  # customer_id, first_name, last_name, street_address, zip_code, join_date
-        'employees': 'employees',  # employee_id, first_name, last_name, start_date, end_date, is_current
-        'orders': 'orders',  # order_id, customer_id, order_id, quantity, price, total_price, is_received
-        'products': 'products',  # product_id, product_name, description, stock_quantity, price
-        'reviews': 'reviews',  # review_id, customer_id, product_id, is_ordered, review_text
+        'credentials': 'credentials.csv',  # customer_id, customer_username, customer_password
+        'customers': 'customers.csv',  # customer_id, first_name, last_name, street_address, zip_code, join_date
+        'employees': 'employees.csv',  # employee_id, first_name, last_name, start_date, end_date, is_current
+        'orders': 'orders.csv',  # order_id, customer_id, order_id, quantity, price, total_price, is_received
+        'products': 'products.csv',  # product_id, product_name, description, stock_quantity, price
+        'reviews': 'reviews.csv',  # review_id, customer_id, product_id, is_ordered, review_text
     }
 
     def __init__(self, data_dir='data'):
