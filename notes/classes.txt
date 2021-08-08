@@ -10,9 +10,10 @@
 # TODO
 8. CustomerPortal
 9. EmployeePortal
-10. ShoppingCart
-11. Product
-12. Item
+10. SharedPortal
+11. ShoppingCart
+12. Product
+13. Item
 
 # Other
-13. TestConfig
+14. TestConfig

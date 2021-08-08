@@ -18,10 +18,10 @@ class WallymartApp:
         self._log_filename = "wallymart"
         self._args = args
         self._logger = logging.getLogger(__name__)
+        self._pages = Pages()
+        self._customer_or_employee = None
         self._username = ''
         self._authenticated = False
-        self._customer_or_employee = None
-        self._pages = Pages()
         self._shopping_cart = None
 
         # initialize app
@@ -29,8 +29,8 @@ class WallymartApp:
         self._configure_log()
         self._logger.add_stream_handler()
         # self._logger.add_file_handler()  # disable during testing
-        self._configure_database()
         self._pages.add_logger(self._logger)
+        self._configure_database()
 
     # ----------------------------------------------------------------------
     # Private
@@ -86,80 +86,54 @@ class WallymartApp:
         
         self.log(f'Logging in as {self._username}...')
 
+        # customer portal
+        if self._customer_or_employee == '1':
+            while self._authenticated:
+                customer_choice = self._pages.employee_home(self._username)
+                if customer_choice=='1':
+                    # self._pages.view_products()
+                    pass
+                elif customer_choice=='2':
+                    # self._pages.view_specific_item()
+                    pass
+                elif customer_choice=='3':
+                    # add item to cart
+                    pass
+                elif customer_choice=='4':
+                    self._pages.review_item_page(self._username)
+                elif customer_choice=='5':
+                    self._pages.shopping_cart_page(self._username)
+                elif customer_choice=='6':
+                    self._pages.update_profile_page(self._username)
+                elif customer_choice=='7':
+                    self._authenticated = False
+                else:
+                    pass
+
         # employee portal
-        if self._customer_or_employee == '2':
+        elif self._customer_or_employee == '2':
             while self._authenticated:
                 employee_choice = self._pages.employee_home(self._username)
                 if employee_choice=='1':
                     self._pages.delivery_page()
                 elif employee_choice=='2':
-                    self._pages.view_products_page()
+                    # self._pages.view_products()
+                    pass
                 elif employee_choice=='3':
-                    self._pages.add_products_page()
+                    # self._pages.view_specific_item()
+                    pass
                 elif employee_choice=='4':
-                    self._pages.update_profile_page(self._username)
+                    self._pages.add_products_page()
                 elif employee_choice=='5':
+                    self._pages.update_profile_page(self._username)
+                elif employee_choice=='6':
                     self._authenticated = False
-                    self.log(f'Logging out of {self._username}...')
-                    self.log('Thank you for using Wallymart!')
                 else:
                     pass
 
-        # ----------------------------------------------------------------------
-        # Employee Pages       
+        self.log(f'Logging out of {self._username}...')
+        self.log('Thank you for using Wallymart!')
 
-        # Employee Portal
-        # (1): Update profile
-        # (2): Add new product
-        # (3): View Orders
-        # (4): Update order
-
-
-        # ----------------------------------------------------------------------
-        # Customer Pages
-
-        # Customer Portal
-        # list products automatically (10 per page, loop)
-        # Select an option:
-        # (0): Log out
-        # (1): Update profile
-        # (2): View item -> sends to item page
-        # (3): Add item to cart
-        # (4): Checkout  -> sends to checkout
-
-        # Item page (from view item option)
-        # display reviews automatically (10 per page, loop)
-        # Select an option: 
-        # (0): Log out
-        # (1): Add item to cart
-        # (2): Select a review -> sends to review page
-        # (2): Write a review -> sends to form
-        # (3): Go back to customer portal
-
-        # Review page
-        # display full review
-        # (0): Log out
-        # (1): Upvote review
-        # (2): Downvote review
-        # (3): Go back to item page
-        # (4): Go back to customer portal
-
-        # Review form
-        # enter a review
-        # need logic to only add one review per customer
-        # (0): Log out
-        # (1): Submit review  # overwrite existing review
-        # (2): Go back to item page
-
-        # Checkout page
-        # add cart to orders table
-        # (1): Add credit card info
-        # (2): Add shipping address
-        # (3): Submit order -> return to customer portal
-
-
-
-        
 
 if __name__ == '__main__':
     app = WallymartApp()

@@ -9,9 +9,10 @@ from wallymart.credential_manager.credentials import Credentials
 from wallymart.database_manager.database_connection import DatabaseConnection
 from .portal.customer_portal import CustomerPortal
 from .portal.employee_portal import EmployeePortal
+from .portal.shared_portal import SharedPortal
 
 
-class Pages(CustomerPortal, EmployeePortal):
+class Pages(CustomerPortal, EmployeePortal, SharedPortal):
     def __init__(self, logger=None):
         self._logger = logger or logging.getLogger(__name__)
 
@@ -39,7 +40,7 @@ class Pages(CustomerPortal, EmployeePortal):
         logger.log(f"Are you a: (1) customer or (2) employee? {customer_or_employee}")
 
         while True:
-            signup_or_login = input("Please choose: (1) create account, (2) log in ")
+            signup_or_login = input("Please choose: (1) create account, (2) log in: ")
             if signup_or_login not in ('1', '2'):
                 print("Please pick a valid choice")
             else:
