@@ -11,8 +11,9 @@ class DatabaseConfigurator:
     """
     # config
     filename_for_table_name = {
-        'credentials': 'credentials.csv',  # customer_id, customer_username, customer_password
+        'customer_credentials': 'customer_credentials.csv',  # customer_id, customer_username, customer_password
         'customers': 'customers.csv',  # customer_id, first_name, last_name, street_address, zip_code, join_date
+        'employee_credentials': 'employee_credentials.csv',  # customer_id, customer_username, customer_password
         'employees': 'employees.csv',  # employee_id, first_name, last_name, start_date, end_date, is_current
         'orders': 'orders.csv',  # order_id, customer_id, order_id, quantity, price, total_price, is_received
         'products': 'products.csv',  # product_id, product_name, description, stock_quantity, price
@@ -26,8 +27,8 @@ class DatabaseConfigurator:
     # ----------------------------------------------------------------------
     # Private
 
-    def _create_credentials_table(self):
-        filename = self.filename_for_table_name.get('credentials')
+    def _create_customer_credentials_table(self):
+        filename = self.filename_for_table_name.get('customer_credentials')
         file = f'{self._repo_dir}/{self.data_dir}/{filename}'
         if not os.path.exists(file):
             df = pd.DataFrame(columns=[
@@ -50,7 +51,18 @@ class DatabaseConfigurator:
                 'join_date'
             ])
             df.to_csv(f'{self._repo_dir}/{self.data_dir}/{filename}', index=None)
-            
+
+    def _create_employee_credentials_table(self):
+        filename = self.filename_for_table_name.get('employee_credentials')
+        file = f'{self._repo_dir}/{self.data_dir}/{filename}'
+        if not os.path.exists(file):
+            df = pd.DataFrame(columns=[
+                'employee_id',
+                'employee_username',
+                'employee_password',
+            ])
+            df.to_csv(f'{self._repo_dir}/{self.data_dir}/{filename}', index=None)
+
     def _create_employees_table(self):
         filename = self.filename_for_table_name.get('employees')
         file = f'{self._repo_dir}/{self.data_dir}/{filename}'
@@ -111,8 +123,9 @@ class DatabaseConfigurator:
 
     def initialize_database(self):
         os.makedirs('data', exist_ok=True)
-        self._create_credentials_table()
+        self._create_customer_credentials_table()
         self._create_customers_table()
+        self._create_employee_credentials_table()
         self._create_employees_table()
         self._create_orders_table()
         self._create_products_table()

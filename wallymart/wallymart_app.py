@@ -76,13 +76,13 @@ class WallymartApp:
 
         # Log in
         while not self._authenticated:
-            response = self._pages.home_page()
-            if response=='1':
-                self._pages.signup_page()
-            if response=='2':
-                self._authenticated, self._username = self._pages.login_page()
+            customer_or_employee, signup_or_login = self._pages.home_page()
+            if signup_or_login=='1':
+                self._pages.signup_page(customer_or_employee)
+            if signup_or_login=='2':
+                self._authenticated, self._username = self._pages.login_page(customer_or_employee)
+        self.log(f'Logging in as {self._username}...')
 
-        self.log(f'Logging in as {self._username}')
 
         # ----------------------------------------------------------------------
         # Customer Pages

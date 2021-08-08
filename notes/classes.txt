@@ -1,12 +1,18 @@
+# Done
 1. WallymartApp
 2. Credentials
 3. CredentialEncoder
 4. DatabaseConfigurator
-5. LoggerConfigurator
-6. Pages
-7. CustomerPortal
-8. EmployeePortal
-9. ShoppingCart
-10. Product
-11. Item
-12. TestConfig  # unittest
+5. DatabaseConnection
+6. LoggerConfigurator
+7. Pages
+
+# TODO
+8. CustomerPortal
+9. EmployeePortal
+10. ShoppingCart
+11. Product
+12. Item
+
+# Other
+13. TestConfig

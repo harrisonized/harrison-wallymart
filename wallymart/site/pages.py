@@ -29,20 +29,36 @@ class Pages(CustomerPortal, EmployeePortal):
             logger = self._logger
 
         logger.log("""Welcome to Wallymart""")  # put something pretty here
+
         while True:
-            response = input("Please choose: (1) sign up, (2) log in: ")
-            if response not in ('1', '2'):
+            customer_or_employee = input("Are you a: (1) customer or (2) employee? ")
+            if customer_or_employee not in ('1', '2'):
                 print("Please pick a valid choice")
             else:
                 break
-        logger.log(f"Please choose: (1) sign up, (2) log in: {response}")
-        return response
+        logger.log(f"Are you a: (1) customer or (2) employee? {customer_or_employee}")
 
-    def signup_page(self, logger=None):
-        
+        while True:
+            signup_or_login = input("Please choose: (1) create account, (2) log in: ")
+            if signup_or_login not in ('1', '2'):
+                print("Please pick a valid choice")
+            else:
+                break
+        logger.log(f"Please choose: (1) create account, (2) log in: {signup_or_login}")
+        return customer_or_employee, signup_or_login
+
+    def signup_page(self, customer_or_employee, logger=None):
+
+        if customer_or_employee=='1':
+            user = 'customer'
+        elif customer_or_employee=='2':
+            user = 'employee'
+        else:
+            raise KeyError('Enter a valid option')
+
         if logger is None:
             logger = self._logger
-        database_connection = DatabaseConnection("credentials.csv")
+        database_connection = DatabaseConnection(f"{user}_credentials.csv")
         table = database_connection.table
 
         # set username
@@ -57,7 +73,7 @@ class Pages(CustomerPortal, EmployeePortal):
                 return 200  # OK
             elif username=='':
                 logger.log('Please choose a valid username')
-            elif len(table[(table['customer_username']==credentials.get_username())]) > 0:
+            elif len(table[(table[f'{user}_username']==credentials.get_username())]) > 0:
                 logger.log(f"Username {username} already exists, please pick a unique username")
             else:
                 new_username = True
@@ -77,13 +93,13 @@ class Pages(CustomerPortal, EmployeePortal):
                     break
 
         # write to database
-        last_customer_id = table.customer_id.max()
-        if pd.isna(last_customer_id):
-            last_customer_id = 0
+        last_id = table[f'{user}_id'].max()
+        if pd.isna(last_id):
+            last_id = 0
         df = pd.DataFrame.from_records([
-            {'customer_id': last_customer_id + 1,
-             'customer_username': credentials.get_username(),
-             'customer_password': credentials.get_password(),
+            {f'{user}_id': last_id + 1,
+             f'{user}_username': credentials.get_username(),
+             f'{user}_password': credentials.get_password(),
             }
         ])
         database_connection.append(df)
@@ -91,11 +107,18 @@ class Pages(CustomerPortal, EmployeePortal):
 
         return 200  # OK
 
-    def login_page(self, logger=None):
+    def login_page(self, customer_or_employee, logger=None):
+
+        if customer_or_employee=='1':
+            user = 'customer'
+        elif customer_or_employee=='2':
+            user = 'employee'
+        else:
+            raise KeyError('Enter a valid option')
 
         if logger is None:
             logger = self._logger
-        database_connection = DatabaseConnection("credentials.csv")
+        database_connection = DatabaseConnection(f"{user}_credentials.csv")
         table = database_connection.table
         _authenticated = False
 
@@ -107,8 +130,8 @@ class Pages(CustomerPortal, EmployeePortal):
                 logger.log('Returning to home...')
                 return _authenticated, username
             credentials = Credentials(username, password)
-            if len(table[(table['customer_username']==credentials.get_username())
-                      & (table['customer_password']==credentials.get_password())]) == 1:
+            if len(table[(table[f'{user}_username']==credentials.get_username())
+                      & (table[f'{user}_password']==credentials.get_password())]) == 1:
                 _authenticated = True
                 logger.log("Logged in!")
                 break

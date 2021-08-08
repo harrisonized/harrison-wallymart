@@ -21,8 +21,11 @@ class DatabaseConnection:
         # see: https://stackoverflow.com/questions/46258499/how-to-read-the-last-line-of-a-file-in-python
         with open(file, 'rb') as f:
             f.seek(-2, os.SEEK_END)
-            while f.read(1) != b'\n':
-                f.seek(-2, os.SEEK_CUR)
+            try:
+                while f.read(1) != b'\n':
+                    f.seek(-2, os.SEEK_CUR)
+            except OSError:
+                pass
             last_line = f.readline().decode()
 
         # add newline if not exist
