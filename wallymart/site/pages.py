@@ -39,23 +39,22 @@ class Pages(CustomerPortal, EmployeePortal):
         return response
 
     def signup_page(self, logger=None):
-
-        # boilerplate
+        
         if logger is None:
             logger = self._logger
-        credentials = Credentials()
         database_connection = DatabaseConnection("credentials.csv")
         table = database_connection.table
 
         # set username
+        credentials = Credentials()
         new_username = False
         while not new_username:
             logger.log("Enter 0 to exit")
             username = input("Username: ")
             credentials.set_username(username)
             if username=="0":
-                logger.log("exit")
-                break
+                logger.log("Returning to home...")
+                return 200  # OK
             elif username=='':
                 logger.log('Please choose a valid username')
             elif len(table[(table['customer_username']==credentials.get_username())]) > 0:
@@ -90,16 +89,30 @@ class Pages(CustomerPortal, EmployeePortal):
         database_connection.append(df)
         logger.log("User created!")
 
-        return 200
+        return 200  # OK
 
     def login_page(self, logger=None):
+
         if logger is None:
             logger = self._logger
-        username = input("Username: ")
-        password = input("Password: ")
-        self._credentials = Credentials(username, password)
-        logger.log(
-            f"username: {self._credentials.get_username()} \n" \
-            f"password: {self._credentials.get_password()}"
-        )
-        return True
+        database_connection = DatabaseConnection("credentials.csv")
+        table = database_connection.table
+        _authenticated = False
+
+        while True:
+            logger.log("Enter empty to exit")
+            username = input("Username: ")
+            password = input("Password: ")
+            if username=='' and password=='':
+                logger.log('Returning to home...')
+                return _authenticated, username
+            credentials = Credentials(username, password)
+            if len(table[(table['customer_username']==credentials.get_username())
+                      & (table['customer_password']==credentials.get_password())]) == 1:
+                _authenticated = True
+                logger.log("Logged in!")
+                break
+            else:
+                logger.log("Please enter a valid username and password combination")
+
+        return _authenticated, username

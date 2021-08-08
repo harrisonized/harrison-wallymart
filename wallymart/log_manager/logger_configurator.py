@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import re
 import logging
 import datetime as dt
 
@@ -26,11 +27,14 @@ class LoggerConfigurator:
     # Private
 
     def _add_handler(self, handler, msg_format=None):
-        if handler=='file':
+        if handler=='stream':
+            handler = logging.StreamHandler()
+        elif handler=='file':
+            repo_dir = re.match('^(.*?)harrison-wallymart', os.getcwd()).group()
+            log_dir = os.path.dirname(self.filename)
+            os.makedirs(f'{repo_dir}/{log_dir}', exist_ok=True)
             now = dt.datetime.now().strftime('%Y%m%d_%H%M%S%f')
             handler = logging.FileHandler(f"{self.filename}-{now}.log")
-        elif handler=='stream':
-            handler = logging.StreamHandler()
         else:
             raise(KeyError, "Choose one: ['file', 'stream']")
         if msg_format is None:
@@ -55,8 +59,8 @@ class LoggerConfigurator:
     def debug(self, msg):
         self.logger.debug(msg)
 
-    def add_file_handler(self):
-        self._add_handler('file')
-
     def add_stream_handler(self):
         self._add_handler('stream', '%(message)s')
+
+    def add_file_handler(self):
+        self._add_handler('file')

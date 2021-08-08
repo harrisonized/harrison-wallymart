@@ -18,7 +18,7 @@ class WallymartApp:
         self._log_filename = "wallymart"
         self._args = args
         self._logger = logging.getLogger(__name__)
-        self._credentials = None
+        self._username = ''
         self._authenticated = False
         self._account_type = None  # 'customer' or 'employee'
         self._pages = Pages()
@@ -50,7 +50,6 @@ class WallymartApp:
         """
         if args is None:
             args = self._args
-        os.makedirs(args.log_dir, exist_ok=True)
         self._logger = LoggerConfigurator(
             logger = self._logger,
             filename=f'{args.log_dir}/{self._log_filename}',
@@ -72,7 +71,7 @@ class WallymartApp:
         self._logger.log(msg, level)
 
     def run(self):
-        """main function
+        """main
         """
 
         # Log in
@@ -81,9 +80,9 @@ class WallymartApp:
             if response=='1':
                 self._pages.signup_page()
             if response=='2':
-                self._authenticated = self._pages.login_page()
+                self._authenticated, self._username = self._pages.login_page()
 
-        self.log("Logged in!")
+        self.log(f'Logging in as {self._username}')
 
         # ----------------------------------------------------------------------
         # Customer Pages
