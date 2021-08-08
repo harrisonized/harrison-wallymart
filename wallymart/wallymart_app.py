@@ -14,13 +14,15 @@ from wallymart.site.pages import Pages
 
 
 class WallymartApp:
-    def __init__(self, args=None):
+    def __init__(self, args=None, logger=None):
         self._log_filename = "wallymart"
         self._args = args
         self._logger = logging.getLogger(__name__)
         self._credentials = None
         self._authenticated = False
+        self._account_type = None  # 'customer' or 'employee'
         self._pages = Pages()
+        self._shopping_cart = None
 
         # initialize app
         self._parse_args()
@@ -28,6 +30,7 @@ class WallymartApp:
         self._logger.add_stream_handler()
         # self._logger.add_file_handler()  # disable during testing
         self._configure_database()
+        self._pages.add_logger(self._logger)
 
     # ----------------------------------------------------------------------
     # Private
@@ -47,9 +50,9 @@ class WallymartApp:
         """
         if args is None:
             args = self._args
-
         os.makedirs(args.log_dir, exist_ok=True)
         self._logger = LoggerConfigurator(
+            logger = self._logger,
             filename=f'{args.log_dir}/{self._log_filename}',
             level=logging.DEBUG if args.debug else logging.INFO
         )
@@ -72,27 +75,69 @@ class WallymartApp:
         """main function
         """
 
-        # sign up or log in
+        # Log in
         while not self._authenticated:
-            sign_up_or_log_in = self._pages.home_page(self._logger)
+            sign_up_or_log_in = self._pages.home_page()
             if sign_up_or_log_in=='1':
-                self._pages.signup_page(self._logger)
+                self._pages.signup_page()
                 self.log("User created!")
             if sign_up_or_log_in=='2':
-                self._authenticated = self._pages.login_page(self._logger)
+                self._authenticated = self._pages.login_page()
 
         self.log("Logged in!")
 
+        # ----------------------------------------------------------------------
+        # Customer Pages
+
+        # Customer Portal
+        # list products automatically (10 per page, loop)
+        # Select an option:
+        # (0): Log out
+        # (1): Update profile
+        # (2): View item -> sends to item page
+        # (3): Add item to cart
+        # (4): Checkout  -> sends to checkout
+
+        # Item page (from view item option)
+        # display reviews automatically (10 per page, loop)
+        # Select an option: 
+        # (0): Log out
+        # (1): Add item to cart
+        # (2): Select a review -> sends to review page
+        # (2): Write a review -> sends to form
+        # (3): Go back to customer portal
+
+        # Review page
+        # display full review
+        # (0): Log out
+        # (1): Upvote review
+        # (2): Downvote review
+        # (3): Go back to item page
+        # (4): Go back to customer portal
+
+        # Review form
+        # enter a review
+        # need logic to only add one review per customer
+        # (0): Log out
+        # (1): Submit review  # overwrite existing review
+        # (2): Go back to item page
+
+        # Checkout page
+        # add cart to orders table
+        # (1): Add credit card info
+        # (2): Add shipping address
+        # (3): Submit order -> return to customer portal
+
+        # ----------------------------------------------------------------------
+        # Employee Pages       
+
+        # Employee Portal
+        # (1): Update profile
+        # (2): Add new product
+        # (3): View Orders
+        # (4): Update order
+
         
-
-        # miscellaneous
-        # module to create a customer or employee
-        # module to display products with reviews
-        # module to select a product based on the number and add it to cart
-        # module to send order
-        # module to write a review
-        # module to add orders to a list that only employees can view
-
 
 if __name__ == '__main__':
     app = WallymartApp()
