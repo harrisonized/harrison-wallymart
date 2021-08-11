@@ -18,7 +18,6 @@ class WallymartApp:
         self._log_filename = "wallymart"
         self._args = args
         self._logger = logging.getLogger(__name__)
-        self._pages = Pages()
         self._customer_or_employee = None
         self._username = ''
         self._authenticated = False
@@ -26,11 +25,11 @@ class WallymartApp:
 
         # initialize app
         self._parse_args()
+        self._configure_database()
         self._configure_log()
         self._logger.add_stream_handler()
         # self._logger.add_file_handler()  # disable during testing
-        self._pages.add_logger(self._logger)
-        self._configure_database()
+        Pages.add_logger(self._logger)
 
     # ----------------------------------------------------------------------
     # Private
@@ -42,6 +41,12 @@ class WallymartApp:
         parser.add_argument('--debug', action='store_true',
                             help='print debug messages')
         self._args = parser.parse_args()
+
+    def _configure_database(self):
+        """Initialize database if not exist
+        """
+        db_configurator = DatabaseConfigurator()
+        db_configurator.initialize_database()
 
     def _configure_log(self, args=None):
         """Add:
@@ -55,12 +60,6 @@ class WallymartApp:
             filename=f'{args.log_dir}/{self._log_filename}',
             level=logging.DEBUG if args.debug else logging.INFO
         )
-
-    def _configure_database(self):
-        """Initialize database if not exist
-        """
-        db_configurator = DatabaseConfigurator()
-        db_configurator.initialize_database()
 
     # ----------------------------------------------------------------------
     # Public
@@ -76,11 +75,11 @@ class WallymartApp:
 
         # Log in
         while not self._authenticated:
-            self._customer_or_employee, signup_or_login = self._pages.home_page()
+            self._customer_or_employee, signup_or_login = Pages.home_page()
             if signup_or_login=='1':
-                self._pages.signup_page(self._customer_or_employee)
+                Pages.signup_page(self._customer_or_employee)
             elif signup_or_login=='2':
-                self._authenticated, self._username = self._pages.login_page(self._customer_or_employee)
+                self._authenticated, self._username = Pages.login_page(self._customer_or_employee)
             else:
                 pass
         
@@ -89,22 +88,22 @@ class WallymartApp:
         # customer portal
         if self._customer_or_employee == '1':
             while self._authenticated:
-                customer_choice = self._pages.employee_home(self._username)
+                customer_choice = Pages.customer_home(self._username)
                 if customer_choice=='1':
-                    # self._pages.view_products()
+                    # Pages.view_products()
                     pass
                 elif customer_choice=='2':
-                    # self._pages.view_specific_item()
+                    # Pages.view_specific_item()
                     pass
                 elif customer_choice=='3':
                     # add item to cart
                     pass
                 elif customer_choice=='4':
-                    self._pages.review_item_page(self._username)
+                    Pages.review_item_page(self._username)
                 elif customer_choice=='5':
-                    self._pages.shopping_cart_page(self._username)
+                    Pages.shopping_cart_page(self._username)
                 elif customer_choice=='6':
-                    self._pages.update_profile_page(self._username)
+                    Pages.update_profile_page(self._username)
                 elif customer_choice=='7':
                     self._authenticated = False
                 else:
@@ -113,19 +112,19 @@ class WallymartApp:
         # employee portal
         elif self._customer_or_employee == '2':
             while self._authenticated:
-                employee_choice = self._pages.employee_home(self._username)
+                employee_choice = Pages.employee_home(self._username)
                 if employee_choice=='1':
-                    self._pages.delivery_page()
+                    Pages.delivery_page()
                 elif employee_choice=='2':
-                    # self._pages.view_products()
+                    # Pages.view_products()
                     pass
                 elif employee_choice=='3':
-                    # self._pages.view_specific_item()
+                    # Pages.view_specific_item()
                     pass
                 elif employee_choice=='4':
-                    self._pages.add_products_page()
+                    Pages.add_products_page()
                 elif employee_choice=='5':
-                    self._pages.update_profile_page(self._username)
+                    Pages.update_profile_page(self._username)
                 elif employee_choice=='6':
                     self._authenticated = False
                 else:

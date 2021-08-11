@@ -7,19 +7,21 @@ import logging
 
 
 class EmployeePortal:
-    def __init__(self, logger=None):
-        self._logger = logger or logging.getLogger(__name__)
+    """All methods are class methods so do not require instantiating the class
+    This class is meant to be inherited by Pages
+    """
 
     # ----------------------------------------------------------------------
     # Public
 
-    def employee_home(self, username, logger=None):
+    @classmethod
+    def employee_home(cls, username, logger=None):
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
 
         logger.log(f'Welcome {username}...')
         while True:
-            employee_choice = input(
+            choice = input(
                 "Please choose: "
                 "(1) view delivery items, "
                 "(2) view products, "  # shared
@@ -28,7 +30,7 @@ class EmployeePortal:
                 "(5) update profile, "  # shared
                 "(6) log out: "
             )
-            if employee_choice not in ('1', '2', '3', '4', '5', '6'):
+            if choice not in ('1', '2', '3', '4', '5', '6'):
                 print("Please pick a valid choice")
             else:
                 break
@@ -39,15 +41,18 @@ class EmployeePortal:
             "(3) view specific item, "
             "(4) add products, "
             "(5) update profile, "
-            f"(6) log out: {employee_choice}"
+            "(6) log out: "
+            f"{choice}"
         )
-        return employee_choice
+        return choice
 
-    def delivery_page(self, logger=None):
+    @classmethod
+    def delivery_page(cls, logger=None):
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
 
-    def add_products_page(self, logger=None):
+    @classmethod
+    def add_products_page(cls, logger=None):
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
     

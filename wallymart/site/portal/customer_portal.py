@@ -6,18 +6,20 @@
 import logging
 
 class CustomerPortal:
-    def __init__(self, logger=None):
-        self._logger = logger or logging.getLogger(__name__)
+    """All methods are class methods so do not require instantiating the class
+    This class is meant to be inherited by Pages
+    """
 
     # ----------------------------------------------------------------------
     # Public
 
-    def customer_home(self, username, logger=None):
+    @classmethod
+    def customer_home(cls, username, logger=None):
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
         logger.log(f'Wecome {username}')
         while True:
-            customer_choice = input(
+            choice = input(
                 "Please choose: "
                 "(1) view products, "  # shared
                 "(2) view specific item, "  # shared
@@ -27,7 +29,7 @@ class CustomerPortal:
                 "(6) update profile, "
                 "(7) log out: "
             )
-            if customer_choice not in ('1', '2', '3', '4', '5', '6'):
+            if choice not in ('1', '2', '3', '4', '5', '6', '7'):
                 print("Please pick a valid choice")
             else:
                 break
@@ -39,17 +41,20 @@ class CustomerPortal:
             "(4) review an item, "
             "(5) checkout, "
             "(6) update profile, "
-            f"(7) log out: {customer_choice}"
+            "(7) log out: "
+            f"{choice}"
         )
-        return customer_choice
+        return choice
 
-    def shopping_cart_page(self, logger=None):
+    @classmethod
+    def shopping_cart_page(cls, logger=None):
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
 
-    def review_item_page(self, logger=None):
+    @classmethod
+    def review_item_page(cls, logger=None):
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
 
     # ----------------------------------------------------------------------
     # Customer Pages

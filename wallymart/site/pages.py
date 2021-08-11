@@ -13,21 +13,25 @@ from .portal.shared_portal import SharedPortal
 
 
 class Pages(CustomerPortal, EmployeePortal, SharedPortal):
-    def __init__(self, logger=None):
-        self._logger = logger or logging.getLogger(__name__)
+    """All methods are class methods so do not require instantiating the class
+    """
+    _logger = logging.getLogger(__name__)
 
     # ----------------------------------------------------------------------
     # Public
 
-    def add_logger(self, logger):
-        self._logger = logger
+    @classmethod
+    def add_logger(cls, logger):
+        """Save Wallymart._logger to the class
+        """
+        cls._logger = logger
 
-    def home_page(self, logger=None):
+    @classmethod
+    def home_page(cls, logger=None):
         """Home page
-        Need seperate login for employees
         """
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
 
         logger.log("""Welcome to Wallymart""")  # put something pretty here
 
@@ -48,7 +52,8 @@ class Pages(CustomerPortal, EmployeePortal, SharedPortal):
         logger.log(f"Please choose: (1) create account, (2) log in: {signup_or_login}")
         return customer_or_employee, signup_or_login
 
-    def signup_page(self, customer_or_employee, logger=None):
+    @classmethod
+    def signup_page(cls, customer_or_employee, logger=None):
 
         if customer_or_employee=='1':
             user = 'customer'
@@ -58,7 +63,7 @@ class Pages(CustomerPortal, EmployeePortal, SharedPortal):
             raise KeyError('Enter a valid option')
 
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
         database_connection = DatabaseConnection(f"{user}_credentials.csv")
         table = database_connection.table
 
@@ -108,7 +113,8 @@ class Pages(CustomerPortal, EmployeePortal, SharedPortal):
 
         return 200  # OK
 
-    def login_page(self, customer_or_employee, logger=None):
+    @classmethod
+    def login_page(cls, customer_or_employee, logger=None):
 
         if customer_or_employee=='1':
             user = 'customer'
@@ -118,7 +124,7 @@ class Pages(CustomerPortal, EmployeePortal, SharedPortal):
             raise KeyError('Enter a valid option')
 
         if logger is None:
-            logger = self._logger
+            logger = cls._logger
         database_connection = DatabaseConnection(f"{user}_credentials.csv")
         table = database_connection.table
         _authenticated = False
