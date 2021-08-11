@@ -14,10 +14,8 @@ class EmployeePortal:
     # ----------------------------------------------------------------------
     # Public
 
-    @classmethod
-    def employee_home(cls, username, logger=None):
-        if logger is None:
-            logger = cls._logger
+    @staticmethod
+    def home(username, logger):
 
         logger.log(f'Welcome {username}...')
         while True:
@@ -45,6 +43,15 @@ class EmployeePortal:
             f"{choice}"
         )
         return choice
+
+    # see: https://stackoverflow.com/questions/1301346/what-is-the-meaning-of-single-and-double-underscore-before-an-object-name
+    __home = home  # local reference
+
+    @classmethod
+    def employee_home(cls, username):
+        """Requires that cls._logger be used as the logger
+        """
+        return cls.__home(username, cls._logger)
 
     @classmethod
     def delivery_page(cls, logger=None):

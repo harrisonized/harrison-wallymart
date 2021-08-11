@@ -75,7 +75,7 @@ class WallymartApp:
 
         # Log in
         while not self._authenticated:
-            self._customer_or_employee, signup_or_login = Pages.home_page()
+            self._customer_or_employee, signup_or_login = Pages.home()
             if signup_or_login=='1':
                 Pages.signup_page(self._customer_or_employee)
             elif signup_or_login=='2':

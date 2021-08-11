@@ -27,7 +27,7 @@ class Pages(CustomerPortal, EmployeePortal, SharedPortal):
         cls._logger = logger
 
     @classmethod
-    def home_page(cls, logger=None):
+    def home(cls, logger=None):
         """Home page
         """
         if logger is None:
