@@ -2,17 +2,19 @@
 1. WallymartApp
 2. Credentials
 3. CredentialEncoder
-4. DatabaseConfigurator
-5. DatabaseConnection
-6. LoggerConfigurator
-7. Pages
+4. Customer
+5. Employee
+6. DatabaseConfigurator
+7. DatabaseConnection
+8. LoggerConfigurator
 
 # TODO
-8. CustomerPortal
-9. EmployeePortal
-10. ShoppingCart
-11. Product
-12. OrderItem
+9. Pages
+10. CustomerPortal
+11. EmployeePortal
+12. ShoppingCart
+13. Product
+14. OrderItem
 
 # Other
-13. TestConfig
+15. TestConfig

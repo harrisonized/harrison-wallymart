@@ -4,8 +4,10 @@
 """
 
 import logging
-from wallymart.order_manager.order_item import OrderItem
 from wallymart.database_manager.database_connection import DatabaseConnection
+from wallymart.credential_manager.customer import Customer
+from wallymart.order_manager.order_item import OrderItem
+
 
 class CustomerPortal:
     """All methods are class methods so do not require instantiating the class
@@ -23,9 +25,8 @@ class CustomerPortal:
                 "Please choose: "
                 "(1) view products, "
                 "(2) checkout, "
-                "(3) review item, "
-                "(4) update profile, "
-                "(5) log out: "
+                "(3) update profile, "
+                "(4) log out: "
             )
             if choice not in ('1', '2', '3', '4', '5'):
                 print("Please pick a valid choice")
@@ -35,9 +36,8 @@ class CustomerPortal:
             "Please choose: "
             "(1) view products, "
             "(2) checkout, "
-            "(3) review item, "
-            "(4) update profile, "
-            "(5) log out: "
+            "(3) update profile, "
+            "(4) log out: "
             f"{choice}"
         )
         return choice
@@ -144,13 +144,43 @@ class CustomerPortal:
                 pass
             else:
                 shopping_cart.reset()
-
-
+                
         print(shopping_cart.items)  # shopping cart should probably be implemented as a dataframe
 
     @classmethod
     def review_page(cls, logger=None):
         if logger is None:
             logger = cls._logger
-            
+
         pass
+
+    @classmethod
+    def profile_page(cls, customer, logger=None):
+        if logger is None:
+            logger = cls._logger
+
+        while True:
+            choice = input(
+                "Please choose: "
+                "(1) update first name, "
+                "(2) update last name, "
+                "(3) update street address, "
+                "(4) update zip code, "
+                "(5) cancel changes and exit, "
+                "(6) save and exit: "
+            )
+            if choice not in ('1', '2', '3', '4', '5', '6'):
+                print("Please pick a valid choice")
+            elif choice=='1':
+                pass
+            elif choice=='2':
+                pass
+            elif choice=='3':
+                pass
+            elif choice=='4':
+                pass
+            elif choice=='5':
+                break
+            else:
+                # save changes to database
+                break

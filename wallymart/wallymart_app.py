@@ -22,6 +22,7 @@ class WallymartApp:
         self._logger = logging.getLogger(__name__)
         self._customer_or_employee = None
         self._username = ''
+        self._user_info = None  # customer or employee
         self._authenticated = False
         # self._shopping_cart = ShoppingCart()
         self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
@@ -77,22 +78,22 @@ class WallymartApp:
         """
 
         # login page
-        self._authenticated = True  # use for testing
-        self._username = 'harrison'
-        self._customer_or_employee = '1'
+        # self._authenticated = True  # use for testing
+        # self._username = 'harrison'
+        # self._customer_or_employee = '1'
 
         while not self._authenticated:
             self._customer_or_employee, signup_or_login = Pages.home()
             if signup_or_login=='1':
                 Pages.signup_page(self._customer_or_employee)
             elif signup_or_login=='2':
-                self._authenticated, self._username = Pages.login_page(self._customer_or_employee)
+                self._username, self._user_info = Pages.login_page(self._customer_or_employee)
+                if self._user_info:
+                    self._authenticated=True
             else:
                 pass
         
         self.log(f'Logging in as {self._username}...')
-
-        print(self._shopping_cart)
 
         # customer portal
         if self._customer_or_employee == '1':
@@ -105,7 +106,7 @@ class WallymartApp:
                 elif customer_choice=='3':
                     Pages.review_page()
                 elif customer_choice=='4':
-                    Pages.update_profile_page()
+                    Pages.customer_profile_page()
                 elif customer_choice=='5':
                     self._authenticated = False
                 else:
@@ -120,7 +121,7 @@ class WallymartApp:
                 elif employee_choice=='2':
                     Pages.add_products_page()
                 elif employee_choice=='3':
-                    Pages.update_profile_page()
+                    Pages.employee_profile_page()
                 elif employee_choice=='4':
                     self._authenticated = False
                 else:

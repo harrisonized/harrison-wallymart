@@ -5,8 +5,6 @@ from wallymart.order_manager.order_item import OrderItem
 
 
 class ShoppingCart:
-    """Stack holding Items
-    """
     def __init__(self, items=[]):
         self.customer_id = ''
         self.items = items
@@ -15,6 +13,9 @@ class ShoppingCart:
     	)
         self.num_items_per_page = 5
         self.page = 1
+
+    # ----------------------------------------------------------------------
+    # Getters and Setters
 
     def set_customer_id(self, customer_id):
         """Add instances of the Product class
@@ -31,6 +32,19 @@ class ShoppingCart:
         """
         self.items = []
 
+    def build_table(self):
+        """Have basics in place, need to make this pretty
+        """
+        pd.options.display.max_rows = None
+        self.table = self.table.append(
+            pd.DataFrame(
+                {"product_id": [item.product_id for item in self.items],
+                 "quantity": [item.quantity for item in self.items]})
+        )
+
+    # ----------------------------------------------------------------------
+    # Views
+
     def get_view(self):
         view = self.table[(self.page-1)*self.num_items_per_page:self.page*self.num_items_per_page]
         return view
@@ -42,13 +56,3 @@ class ShoppingCart:
     def prev_page(self):
         if self.page > 1:
             self.page -= 1
-        
-    def build_table(self):
-        """Have basics in place, need to make this pretty
-        """
-        pd.options.display.max_rows = None
-        self.table = self.table.append(
-            pd.DataFrame(
-                {"product_id": [item.product_id for item in self.items],
-                 "quantity": [item.quantity for item in self.items]})
-        )

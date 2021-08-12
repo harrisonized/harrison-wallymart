@@ -14,17 +14,8 @@ class Product:
         self.quantity = quantity
         self.price = price
 
-    def set_product_name(self, product_name):
-        self.product_name = product_name
-
-    def set_description(self, description):
-        self.description = description
-
-    def set_quantity(self, quantity:int):
-        self.quantity = quantity
-
-    def set_price(self, price):
-        self.price = price
+    # ----------------------------------------------------------------------
+    # Getters
 
     def get_product_name(self):
         return self.product_name
@@ -37,3 +28,18 @@ class Product:
 
     def get_price(self):
         return self.price
+
+    # ----------------------------------------------------------------------
+    # Setters
+
+    def set_product_name(self, product_name):
+        self.product_name = product_name
+
+    def set_description(self, description):
+        self.description = description
+
+    def set_quantity(self, quantity:int):
+        self.quantity = quantity
+
+    def set_price(self, price):
+        self.price = price

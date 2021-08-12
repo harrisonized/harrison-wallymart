@@ -6,6 +6,7 @@
 import logging
 import pandas as pd
 from wallymart.database_manager.database_connection import DatabaseConnection
+from wallymart.credential_manager.employee import Employee
 from wallymart.order_manager.product import Product
 
 

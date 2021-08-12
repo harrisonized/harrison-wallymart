@@ -7,6 +7,8 @@ import logging
 import pandas as pd
 from wallymart.database_manager.database_connection import DatabaseConnection
 from wallymart.credential_manager.credentials import Credentials
+from wallymart.credential_manager.customer import Customer
+from wallymart.credential_manager.employee import Employee
 from .portal.customer_portal import CustomerPortal
 from .portal.employee_portal import EmployeePortal
 
@@ -101,14 +103,23 @@ class Pages(CustomerPortal, EmployeePortal):
         last_id = table[f'{user}_id'].max()
         if pd.isna(last_id):
             last_id = 0
+        user_id = last_id + 1
         df = pd.DataFrame.from_records([
-            {f'{user}_id': last_id + 1,
+            {f'{user}_id': user_id,
              f'{user}_username': credentials.get_username(),
              f'{user}_password': credentials.get_password(),
             }
         ])
         database_connection.append(df)
         logger.log("User created!")
+
+        # add user to other table
+        database_connection = DatabaseConnection(f"{user}s.csv")
+        table = database_connection.table
+        df = pd.DataFrame.from_records([
+            {f'{user}_id': user_id}
+        ])
+        database_connection.append(df)
 
         return 200  # OK
 
@@ -126,27 +137,41 @@ class Pages(CustomerPortal, EmployeePortal):
             logger = cls._logger
         database_connection = DatabaseConnection(f"{user}_credentials.csv")
         table = database_connection.table
-        _authenticated = False
+        authenticated = False
 
-        while True:
+        while not authenticated:
             logger.log("Enter empty to exit")
             username = input("Username: ")
             password = input("Password: ")
             if username=='' and password=='':
                 logger.log('Returning to home...')
-                return _authenticated, username
+                return username, None
             credentials = Credentials(username, password)
-            if len(table[(table[f'{user}_username']==credentials.get_username())
-                      & (table[f'{user}_password']==credentials.get_password())]) >= 1:
-                _authenticated = True
+            df = table[(table[f'{user}_username']==credentials.get_username())
+                       & (table[f'{user}_password']==credentials.get_password())]
+            if len(df) >= 1:
+                authenticated = True
                 logger.log("Logged in!")
-                break
             else:
                 logger.log("Please enter a valid username and password combination")
 
-        return _authenticated, username
+        # save info
+        user_id = int(df[f'{user}_id'][0])
+        database_connection = DatabaseConnection(f"{user}s.csv")
+        table = database_connection.table
 
-    @classmethod
-    def update_profile_page(cls, username, logger=None):
-        if logger is None:
-            logger = cls._logger
+        first_name = table[
+            (table[f'{user}_id']==user_id)
+        ]['first_name'].iloc[0]
+
+        last_name = table[
+            (table[f'{user}_id']==user_id)
+        ]['last_name'].iloc[0]
+        
+        if user == 'customer':
+            user_info = Customer(user_id, first_name, last_name)
+        else:  # if user == 'employee'
+            user_info = Employee(user_id, first_name, last_name)
+
+        if authenticated:
+            return username, user_info
