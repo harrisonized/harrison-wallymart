@@ -5,8 +5,8 @@
 
 import logging
 import pandas as pd
-from wallymart.credential_manager.credentials import Credentials
 from wallymart.database_manager.database_connection import DatabaseConnection
+from wallymart.credential_manager.credentials import Credentials
 from .portal.customer_portal import CustomerPortal
 from .portal.employee_portal import EmployeePortal
 from .portal.shared_portal import SharedPortal
@@ -66,37 +66,37 @@ class Pages(CustomerPortal, EmployeePortal, SharedPortal):
             logger = cls._logger
         database_connection = DatabaseConnection(f"{user}_credentials.csv")
         table = database_connection.table
+        credentials = Credentials()  # container
 
         # set username
-        credentials = Credentials()
-        new_username = False
-        while not new_username:
+        while True:
             logger.log("Enter 0 to exit")
             username = input("Username: ")
-            credentials.set_username(username)
+            credentials.set_username(username)  # to be saved
             if username=="0":
                 logger.log("Returning to home...")
                 return 200  # OK
             elif username=='':
                 logger.log('Please choose a valid username')
             elif len(table[(table[f'{user}_username']==credentials.get_username())]) > 0:
-                logger.log(f"Username {username} already exists, please pick a unique username")
+                logger.log(f"{username} already exists, please enter a unique username")
             else:
-                new_username = True
+                break
 
         # set password
-        if new_username:
-            while True:
-                password = input("Password: ")
-                if password=='':
-                    logger.log('Please choose a valid password')
-                else:
-                    credentials.set_password(password)
-                    logger.log(
-                        f"username: {credentials.get_username()} \n" \
-                        f"password: {credentials.get_password()}"
-                    )
-                    break
+        while True:
+            password = input("Password: ")
+            if password=='':
+                logger.log('Please choose a valid password')
+            else:
+                credentials.set_password(password)  # to be saved
+                break
+
+        # user feedback
+        # logger.log(
+        #     f"username: {credentials.get_username()} \n" \
+        #     f"password: {credentials.get_password()}"
+        # )
 
         # write to database
         last_id = table[f'{user}_id'].max()
@@ -138,7 +138,7 @@ class Pages(CustomerPortal, EmployeePortal, SharedPortal):
                 return _authenticated, username
             credentials = Credentials(username, password)
             if len(table[(table[f'{user}_username']==credentials.get_username())
-                      & (table[f'{user}_password']==credentials.get_password())]) == 1:
+                      & (table[f'{user}_password']==credentials.get_password())]) >= 1:
                 _authenticated = True
                 logger.log("Logged in!")
                 break

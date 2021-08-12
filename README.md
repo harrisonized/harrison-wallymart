@@ -1,6 +1,6 @@
 ## Introduction
 
-This is the project for the UCSC's SEQA.X401 [Object-Oriented Analysis and Design](https://www.ucsc-extension.edu/courses/object-oriented-analysis-and-design/) couse. The idea is to create an app using the object-oriented programming paradigm that utilizes 10 or more classes. I will first be building this as a command-line tool, but if I have extra time, I would love to put the front-end on the Django framework. If I do not get to it by the time this project is due, I will be definitely be returning to this after the class is over, as I think this could be an important portfolio piece and is good for my general skills development.
+This is the project for the UCSC's SEQA.X401 [Object-Oriented Analysis and Design](https://www.ucsc-extension.edu/courses/object-oriented-analysis-and-design/) couse. The idea is to create an app using the object-oriented programming paradigm that utilizes 10 or more classes. I will first be building this as a command-line tool, but if I have extra time, I would love to put the front-end on the Django framework. If I do not get to it by the time this project is due, I may be returning to this in the future, as I think this could be an important portfolio piece and is good for my general skills development.
 
 
 

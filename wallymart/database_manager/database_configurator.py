@@ -16,7 +16,7 @@ class DatabaseConfigurator:
         'employee_credentials': 'employee_credentials.csv',  # customer_id, customer_username, customer_password
         'employees': 'employees.csv',  # employee_id, first_name, last_name, start_date, end_date, is_current
         'orders': 'orders.csv',  # order_id, customer_id, order_id, quantity, price, total_price, is_received
-        'products': 'products.csv',  # product_id, product_name, description, stock_quantity, price
+        'products': 'products.csv',  # product_id, product_name, description, quantity, price
         'reviews': 'reviews.csv',  # review_id, customer_id, product_id, is_ordered, review_text
     }
 
@@ -100,7 +100,7 @@ class DatabaseConfigurator:
                 'product_id',
                 'product_name',
                 'description',
-                'stock_quantity',
+                'quantity',
                 'price',
             ])
             df.to_csv(f'{self._repo_dir}/{self.data_dir}/{filename}', index=None)

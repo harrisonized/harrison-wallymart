@@ -4,16 +4,16 @@
 class ShoppingCart:
     """Stack holding Items
     """
-    def __init__(self, customer_id):
-        self.customer_id = customer_id
-        self.items = items
+    def __init__(self):
+        self.customer_id = ''
+        self.items = []
 
-    def add_item(self, item):
+    def set_customer_id(self, customer_id):
+        """Add instances of the Product class
+        """
+        self.customer_id = customer_id
+
+    def append(self, item):
         """Add instances of the Product class
         """
         self.items.append(item)
-
-    def remove_item(self, item, idx):
-        """
-        """
-        self.item.pop(idx)

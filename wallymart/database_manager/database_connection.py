@@ -3,16 +3,25 @@
 import os
 import re
 import pandas as pd
+from wallymart.order_manager.order_item import OrderItem
+
 
 class DatabaseConnection:
     """Read/write the database
+    View items
     """
+
     def __init__(self, filename, data_dir='data'):  # should put these in config files
         self._repo_dir = re.match('^(.*?)harrison-wallymart', os.getcwd()).group()
         self.data_dir = data_dir
         self.filename = filename
         self._filepath = f'{self._repo_dir}/{self.data_dir}/{self.filename}'
         self.table = pd.read_csv(self._filepath)
+        self.num_items_per_page = 5
+        self.page = 1
+
+    # ----------------------------------------------------------------------
+    # Private
 
     def _ensure_file_ends_with_newline(self, file):
         """If csv file does not end with newline, adds a newline
@@ -33,7 +42,22 @@ class DatabaseConnection:
             with open(file, 'a') as f:
                 f.write('\n')
 
+    # ----------------------------------------------------------------------
+    # Public
+
     def append(self, df):
         self.table = self.table.append(df)
         self._ensure_file_ends_with_newline(self._filepath)
         df.to_csv(self._filepath, mode='a', header=None, index=None)
+
+    def next_page(self):
+        if self.page*self.num_items_per_page <= len(self.table):
+            self.page += 1
+
+    def prev_page(self):
+        if self.page > 1:
+            self.page -= 1
+
+    def get_view(self):
+        view = self.table[(self.page-1)*self.num_items_per_page:self.page*self.num_items_per_page]
+        return view

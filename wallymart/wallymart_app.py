@@ -10,6 +10,7 @@ import argparse
 from wallymart.log_manager.logger_configurator import LoggerConfigurator
 from wallymart.database_manager.database_configurator import DatabaseConfigurator
 from wallymart.credential_manager.credentials import Credentials
+from wallymart.order_manager.shopping_cart import ShoppingCart
 from wallymart.site.pages import Pages
 
 
@@ -21,7 +22,7 @@ class WallymartApp:
         self._customer_or_employee = None
         self._username = ''
         self._authenticated = False
-        self._shopping_cart = None
+        self._shopping_cart = ShoppingCart()
 
         # initialize app
         self._parse_args()
@@ -73,7 +74,11 @@ class WallymartApp:
         """main
         """
 
-        # Log in
+        # login page
+        self._authenticated = True  # use for testing
+        self._username = 'harrison'
+        self._customer_or_employee = '1'
+
         while not self._authenticated:
             self._customer_or_employee, signup_or_login = Pages.home()
             if signup_or_login=='1':
@@ -88,23 +93,14 @@ class WallymartApp:
         # customer portal
         if self._customer_or_employee == '1':
             while self._authenticated:
-                customer_choice = Pages.customer_home(self._username)
+                customer_choice = Pages.customer_home()
                 if customer_choice=='1':
-                    # Pages.view_products()
-                    pass
+                    Pages.view_products(self._shopping_cart)
                 elif customer_choice=='2':
-                    # Pages.view_specific_item()
-                    pass
+                    Pages.checkout_page(self._shopping_cart)
                 elif customer_choice=='3':
-                    # add item to cart
-                    pass
+                    Pages.update_profile_page()
                 elif customer_choice=='4':
-                    Pages.review_item_page(self._username)
-                elif customer_choice=='5':
-                    Pages.shopping_cart_page(self._username)
-                elif customer_choice=='6':
-                    Pages.update_profile_page(self._username)
-                elif customer_choice=='7':
                     self._authenticated = False
                 else:
                     pass
@@ -112,24 +108,19 @@ class WallymartApp:
         # employee portal
         elif self._customer_or_employee == '2':
             while self._authenticated:
-                employee_choice = Pages.employee_home(self._username)
+                employee_choice = Pages.employee_home()
                 if employee_choice=='1':
                     Pages.delivery_page()
                 elif employee_choice=='2':
-                    # Pages.view_products()
-                    pass
-                elif employee_choice=='3':
-                    # Pages.view_specific_item()
-                    pass
-                elif employee_choice=='4':
                     Pages.add_products_page()
-                elif employee_choice=='5':
-                    Pages.update_profile_page(self._username)
-                elif employee_choice=='6':
+                elif employee_choice=='3':
+                    Pages.update_profile_page()
+                elif employee_choice=='4':
                     self._authenticated = False
                 else:
                     pass
 
+        print(self._shopping_cart)
         self.log(f'Logging out of {self._username}...')
         self.log('Thank you for using Wallymart!')
 

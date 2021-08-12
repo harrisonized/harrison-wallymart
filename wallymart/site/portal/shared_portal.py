@@ -4,6 +4,9 @@
 """
 
 import logging
+from wallymart.order_manager.shopping_cart import ShoppingCart
+from wallymart.order_manager.product import Product
+from wallymart.database_manager.database_connection import DatabaseConnection
 
 
 class SharedPortal:
@@ -13,13 +16,6 @@ class SharedPortal:
 
     # ----------------------------------------------------------------------
     # Public
-
-    @classmethod
-    def view_products(cls, logger=None):
-        """Should probably be handled through DatabaseConnection
-        """
-        if logger is None:
-            logger = cls._logger
 
     @classmethod
     def view_specific_item(cls, logger=None):

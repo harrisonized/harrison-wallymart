@@ -4,6 +4,8 @@
 """
 
 import logging
+from wallymart.order_manager.order_item import OrderItem
+from wallymart.database_manager.database_connection import DatabaseConnection
 
 class CustomerPortal:
     """All methods are class methods so do not require instantiating the class
@@ -14,33 +16,26 @@ class CustomerPortal:
     # Public
 
     @staticmethod
-    def home(username, logger):
+    def home(logger):
 
-        logger.log(f'Wecome {username}')
         while True:
             choice = input(
                 "Please choose: "
                 "(1) view products, "  # shared
-                "(2) view specific item, "  # shared
-                "(3) add item to cart, "
-                "(4) review an item, "
-                "(5) checkout, "  # go to shopping_cart page
-                "(6) update profile, "
-                "(7) log out: "
+                "(2) checkout, "  # go to shopping_cart page
+                "(3) update profile, "
+                "(4) log out: "
             )
-            if choice not in ('1', '2', '3', '4', '5', '6', '7'):
+            if choice not in ('1', '2', '3', '4'):
                 print("Please pick a valid choice")
             else:
                 break
         logger.log(
             "Please choose: "
             "(1) view products, "
-            "(2) view specific item, "
-            "(3) add item to cart, "
-            "(4) review an item, "
-            "(5) checkout, "
-            "(6) update profile, "
-            "(7) log out: "
+            "(2) checkout, "
+            "(3) update profile, "
+            "(4) log out: "
             f"{choice}"
         )
         return choice
@@ -49,15 +44,74 @@ class CustomerPortal:
     __home = home  # local reference
 
     @classmethod
-    def customer_home(cls, username):
+    def customer_home(cls):
         """Requires that cls._logger be used as the logger
         """
-        return cls.__home(username, cls._logger)
+        return cls.__home(cls._logger)
 
     @classmethod
-    def shopping_cart_page(cls, logger=None):
+    def view_products(cls, shopping_cart, logger=None):
+        """Should probably be handled through DatabaseConnection
+        """
         if logger is None:
             logger = cls._logger
+        database_connection = DatabaseConnection(f"products.csv")
+
+        while True:
+
+            view = database_connection.get_view()
+            print(view)
+
+            choice = input(
+                "Please choose: "
+                "(1) next page, "
+                "(2) previous page, "
+                "(3) add item to cart, "
+                "(4) write a review, "
+                "Any key to exit "
+            )
+            if choice not in ('1', '2', '3', '4'):
+                break
+
+            if choice=='1':
+                database_connection.next_page()
+            elif choice=='2':
+                database_connection.prev_page()
+            elif choice=='3':
+                order_item = OrderItem()
+
+                # get product_id
+                while True:
+                    product_id = input("Enter the product_id: ")
+                    try:
+                        product_id = int(product_id)
+                    except:
+                        logger.log("product id should be an integer")
+                    order_item.set_product_id(int(product_id))
+                    break
+
+                # get product_id
+                while True:
+                    quantity = input("Enter quantity: ")
+                    try:
+                        quantity = int(quantity)
+                    except:
+                        logger.log("quantity should be an integer")
+                    order_item.set_quantity(quantity)
+                    break
+
+                shopping_cart.append(order_item)
+                # enter logic to add this to cart
+            else:
+                pass
+
+    @classmethod
+    def checkout_page(cls, shopping_cart, logger=None):
+        """In progress
+        """
+        if logger is None:
+            logger = cls._logger
+        print(shopping_cart.items)
 
     @classmethod
     def review_item_page(cls, logger=None):
