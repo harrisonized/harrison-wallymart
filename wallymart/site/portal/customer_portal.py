@@ -21,12 +21,13 @@ class CustomerPortal:
         while True:
             choice = input(
                 "Please choose: "
-                "(1) view products, "  # shared
-                "(2) checkout, "  # go to shopping_cart page
-                "(3) update profile, "
-                "(4) log out: "
+                "(1) view products, "
+                "(2) checkout, "
+                "(3) review item, "
+                "(4) update profile, "
+                "(5) log out: "
             )
-            if choice not in ('1', '2', '3', '4'):
+            if choice not in ('1', '2', '3', '4', '5'):
                 print("Please pick a valid choice")
             else:
                 break
@@ -34,8 +35,9 @@ class CustomerPortal:
             "Please choose: "
             "(1) view products, "
             "(2) checkout, "
-            "(3) update profile, "
-            "(4) log out: "
+            "(3) review item, "
+            "(4) update profile, "
+            "(5) log out: "
             f"{choice}"
         )
         return choice
@@ -68,16 +70,16 @@ class CustomerPortal:
                 "(2) previous page, "
                 "(3) add item to cart, "
                 "(4) write a review, "
-                "Any key to exit "
+                "Any other key to exit "
             )
             if choice not in ('1', '2', '3', '4'):
                 break
 
-            if choice=='1':
+            if choice=='1':  # next page
                 database_connection.next_page()
-            elif choice=='2':
+            elif choice=='2':  # previous page
                 database_connection.prev_page()
-            elif choice=='3':
+            elif choice=='3':  # add item to cart
                 order_item = OrderItem()
 
                 # get product_id
@@ -102,6 +104,8 @@ class CustomerPortal:
 
                 shopping_cart.append(order_item)
                 # enter logic to add this to cart
+            elif '5':
+                break
             else:
                 pass
 
@@ -111,51 +115,42 @@ class CustomerPortal:
         """
         if logger is None:
             logger = cls._logger
-        print(shopping_cart.items)
+
+        print(shopping_cart)
+        shopping_cart.build_table()
+
+        while True:
+
+            view = shopping_cart.get_view()
+            print(view)
+
+            choice = input(
+                "Please choose: "
+                "(1) next page, "
+                "(2) previous page, "
+                "(3) submit order, "
+                "(4) cancel order, "
+                "Any other key to exit "
+            )
+            if choice not in ('1', '2', '3', '4'):
+                break
+
+            if choice=='1':  # next page
+                shopping_cart.next_page()
+            elif choice=='2':  # previous page
+                shopping_cart.prev_page()
+            elif choice=='3':  # add item to cart
+                # enter results to database
+                pass
+            else:
+                shopping_cart.reset()
+
+
+        print(shopping_cart.items)  # shopping cart should probably be implemented as a dataframe
 
     @classmethod
-    def review_item_page(cls, logger=None):
+    def review_page(cls, logger=None):
         if logger is None:
             logger = cls._logger
-
-    # ----------------------------------------------------------------------
-    # Customer Pages
-
-    # Customer Portal
-    # list products automatically (10 per page, loop)
-    # Select an option:
-    # (0): Log out
-    # (1): Update profile
-    # (2): View item -> sends to item page
-    # (3): Add item to cart
-    # (4): Checkout  -> sends to checkout
-
-    # Item page (from view item option)
-    # display reviews automatically (10 per page, loop)
-    # Select an option: 
-    # (0): Log out
-    # (1): Add item to cart
-    # (2): Select a review -> sends to review page
-    # (2): Write a review -> sends to form
-    # (3): Go back to customer portal
-
-    # Review page
-    # display full review
-    # (0): Log out
-    # (1): Upvote review
-    # (2): Downvote review
-    # (3): Go back to item page
-    # (4): Go back to customer portal
-
-    # Review form
-    # enter a review
-    # need logic to only add one review per customer
-    # (0): Log out
-    # (1): Submit review  # overwrite existing review
-    # (2): Go back to item page
-
-    # Checkout page
-    # add cart to orders table
-    # (1): Add credit card info
-    # (2): Add shipping address
-    # (3): Submit order -> return to customer portal
+            
+        pass

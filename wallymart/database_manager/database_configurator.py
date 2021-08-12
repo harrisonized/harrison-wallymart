@@ -85,7 +85,9 @@ class DatabaseConfigurator:
                 'order_id',
                 'customer_id',
                 'order_id',
-                'quantity',
+                'items',
+                'item_names',
+                'quantities',  # can build a dictionary from these
                 'price',
                 'total_price',
                 'is_received',

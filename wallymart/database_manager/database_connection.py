@@ -50,6 +50,10 @@ class DatabaseConnection:
         self._ensure_file_ends_with_newline(self._filepath)
         df.to_csv(self._filepath, mode='a', header=None, index=None)
 
+    def get_view(self):
+        view = self.table[(self.page-1)*self.num_items_per_page:self.page*self.num_items_per_page]
+        return view
+
     def next_page(self):
         if self.page*self.num_items_per_page <= len(self.table):
             self.page += 1
@@ -57,7 +61,3 @@ class DatabaseConnection:
     def prev_page(self):
         if self.page > 1:
             self.page -= 1
-
-    def get_view(self):
-        view = self.table[(self.page-1)*self.num_items_per_page:self.page*self.num_items_per_page]
-        return view

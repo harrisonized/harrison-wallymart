@@ -11,6 +11,7 @@ from wallymart.log_manager.logger_configurator import LoggerConfigurator
 from wallymart.database_manager.database_configurator import DatabaseConfigurator
 from wallymart.credential_manager.credentials import Credentials
 from wallymart.order_manager.shopping_cart import ShoppingCart
+from wallymart.order_manager.order_item import OrderItem
 from wallymart.site.pages import Pages
 
 
@@ -22,7 +23,8 @@ class WallymartApp:
         self._customer_or_employee = None
         self._username = ''
         self._authenticated = False
-        self._shopping_cart = ShoppingCart()
+        # self._shopping_cart = ShoppingCart()
+        self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
 
         # initialize app
         self._parse_args()
@@ -90,6 +92,8 @@ class WallymartApp:
         
         self.log(f'Logging in as {self._username}...')
 
+        print(self._shopping_cart)
+
         # customer portal
         if self._customer_or_employee == '1':
             while self._authenticated:
@@ -99,8 +103,10 @@ class WallymartApp:
                 elif customer_choice=='2':
                     Pages.checkout_page(self._shopping_cart)
                 elif customer_choice=='3':
-                    Pages.update_profile_page()
+                    Pages.review_page()
                 elif customer_choice=='4':
+                    Pages.update_profile_page()
+                elif customer_choice=='5':
                     self._authenticated = False
                 else:
                     pass
@@ -120,7 +126,6 @@ class WallymartApp:
                 else:
                     pass
 
-        print(self._shopping_cart)
         self.log(f'Logging out of {self._username}...')
         self.log('Thank you for using Wallymart!')
 

@@ -55,6 +55,11 @@ class EmployeePortal:
     # TODO
 
     @classmethod
+    def delivery_page(cls, logger=None):
+        if logger is None:
+            logger = cls._logger
+
+    @classmethod
     def add_products_page(cls, logger=None):
 
         if logger is None:
@@ -127,12 +132,4 @@ class EmployeePortal:
         logger.log("Product created!")
 
         return 200
-
-
-    @classmethod
-    def delivery_page(cls, logger=None):
-        if logger is None:
-            logger = cls._logger
-
-
     
