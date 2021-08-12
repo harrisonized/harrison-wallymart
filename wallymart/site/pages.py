@@ -9,10 +9,9 @@ from wallymart.database_manager.database_connection import DatabaseConnection
 from wallymart.credential_manager.credentials import Credentials
 from .portal.customer_portal import CustomerPortal
 from .portal.employee_portal import EmployeePortal
-from .portal.shared_portal import SharedPortal
 
 
-class Pages(CustomerPortal, EmployeePortal, SharedPortal):
+class Pages(CustomerPortal, EmployeePortal):
     """All methods are class methods so do not require instantiating the class
     """
     _logger = logging.getLogger(__name__)
@@ -146,3 +145,8 @@ class Pages(CustomerPortal, EmployeePortal, SharedPortal):
                 logger.log("Please enter a valid username and password combination")
 
         return _authenticated, username
+
+    @classmethod
+    def update_profile_page(cls, username, logger=None):
+        if logger is None:
+            logger = cls._logger
