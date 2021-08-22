@@ -76,7 +76,7 @@ class Pages(CustomerPortal, EmployeePortal):
             credentials.set_username(username)  # to be saved
             if username=="0":
                 logger.log("Returning to home...")
-                return 200  # OK
+                return
             elif username=='':
                 logger.log('Please choose a valid username')
             elif len(table[(table[f'{user}_username']==credentials.get_username())]) > 0:
@@ -121,10 +121,12 @@ class Pages(CustomerPortal, EmployeePortal):
         ])
         database_connection.append(df)
 
-        return 200  # OK
+        return
 
     @classmethod
     def login_page(cls, customer_or_employee, logger=None):
+        """Returns credentials, authenticated
+        """
 
         if customer_or_employee=='1':
             user = 'customer'
@@ -135,43 +137,27 @@ class Pages(CustomerPortal, EmployeePortal):
 
         if logger is None:
             logger = cls._logger
+
         database_connection = DatabaseConnection(f"{user}_credentials.csv")
         table = database_connection.table
-        authenticated = False
 
-        while not authenticated:
+        while True:
             logger.log("Enter empty to exit")
             username = input("Username: ")
             password = input("Password: ")
+
+            # exit
             if username=='' and password=='':
                 logger.log('Returning to home...')
-                return username, None
+                return Credentials(), False
+
             credentials = Credentials(username, password)
             df = table[(table[f'{user}_username']==credentials.get_username())
                        & (table[f'{user}_password']==credentials.get_password())]
-            if len(df) >= 1:
-                authenticated = True
-                logger.log("Logged in!")
-            else:
+            if len(df) == 0:
                 logger.log("Please enter a valid username and password combination")
-
-        # save info
-        user_id = int(df[f'{user}_id'][0])
-        database_connection = DatabaseConnection(f"{user}s.csv")
-        table = database_connection.table
-
-        first_name = table[
-            (table[f'{user}_id']==user_id)
-        ]['first_name'].iloc[0]
-
-        last_name = table[
-            (table[f'{user}_id']==user_id)
-        ]['last_name'].iloc[0]
-        
-        if user == 'customer':
-            user_info = Customer(user_id, first_name, last_name)
-        else:  # if user == 'employee'
-            user_info = Employee(user_id, first_name, last_name)
-
-        if authenticated:
-            return username, user_info
+            else:
+                logger.log("Logged in!")
+                credentials.set_customer_id(df['{user}_id'].iloc[0])
+                authenticated = True
+                return credentials, True

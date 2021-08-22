@@ -20,12 +20,15 @@ class WallymartApp:
         self._log_filename = "wallymart"
         self._args = args
         self._logger = logging.getLogger(__name__)
+
         self._customer_or_employee = None
-        self._username = ''
-        self._user_info = None  # customer or employee
+
+        self._credentials = None
         self._authenticated = False
+        
         # self._shopping_cart = ShoppingCart()
         self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
+        self._shopping_cart.set_customer_id(1)
 
         # initialize app
         self._parse_args()
@@ -77,37 +80,37 @@ class WallymartApp:
         """main
         """
 
-        # login page
-        # self._authenticated = True  # use for testing
-        # self._username = 'harrison'
-        # self._customer_or_employee = '1'
+        # testing
+        self._customer_or_employee = '1'
+        self._authenticated = True  # use for testing
+        self._credentials = Credentials('harrison', 'password')
+        self._credentials.set_customer_id(1)
 
         while not self._authenticated:
             self._customer_or_employee, signup_or_login = Pages.home()
             if signup_or_login=='1':
                 Pages.signup_page(self._customer_or_employee)
             elif signup_or_login=='2':
-                self._username, self._user_info = Pages.login_page(self._customer_or_employee)
-                if self._user_info:
-                    self._authenticated=True
+                self._credentials, self._authenticated = Pages.login_page(self._customer_or_employee)
             else:
                 pass
         
-        self.log(f'Logging in as {self._username}...')
+        self.log(f'Logging in as {self._credentials.get_username()}...')
 
         # customer portal
         if self._customer_or_employee == '1':
             while self._authenticated:
                 customer_choice = Pages.customer_home()
+
                 if customer_choice=='1':
                     Pages.view_products(self._shopping_cart)
                 elif customer_choice=='2':
                     Pages.checkout_page(self._shopping_cart)
                 elif customer_choice=='3':
-                    Pages.review_page()
+                    Pages.customer_profile_page(
+                        customer_id=self._credentials.get_customer_id()
+                    )
                 elif customer_choice=='4':
-                    Pages.customer_profile_page()
-                elif customer_choice=='5':
                     self._authenticated = False
                 else:
                     pass
@@ -127,7 +130,7 @@ class WallymartApp:
                 else:
                     pass
 
-        self.log(f'Logging out of {self._username}...')
+        self.log(f'Logging out of {self._credentials.get_username()}...')
         self.log('Thank you for using Wallymart!')
 
 

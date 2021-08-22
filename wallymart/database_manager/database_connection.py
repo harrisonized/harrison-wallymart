@@ -50,6 +50,11 @@ class DatabaseConnection:
         self._ensure_file_ends_with_newline(self._filepath)
         df.to_csv(self._filepath, mode='a', header=None, index=None)
 
+    def overwrite(self):
+        """This is a limitation of pandas, cannot just write to a single row
+        """
+        self.table.to_csv(self._filepath, index=None)
+
     def get_view(self):
         view = self.table[(self.page-1)*self.num_items_per_page:self.page*self.num_items_per_page]
         return view

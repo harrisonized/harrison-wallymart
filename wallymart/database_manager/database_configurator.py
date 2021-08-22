@@ -84,11 +84,7 @@ class DatabaseConfigurator:
             df = pd.DataFrame(columns=[
                 'order_id',
                 'customer_id',
-                'order_id',
-                'items',
-                'item_names',
-                'quantities',  # can build a dictionary from these
-                'price',
+                'order',
                 'total_price',
                 'is_received',
             ])
@@ -115,7 +111,6 @@ class DatabaseConfigurator:
                 'review_id',
                 'customer_id',
                 'product_id',
-                'is_ordered',
                 'review_text',
             ])
             df.to_csv(f'{self._repo_dir}/{self.data_dir}/{filename}', index=None)

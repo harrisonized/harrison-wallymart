@@ -21,7 +21,7 @@ class Customer:
     # ----------------------------------------------------------------------
     # Getters
 
-    def get_id(self):
+    def get_customer_id(self):
         return self._customer_id
 
     def get_first_name(self):
