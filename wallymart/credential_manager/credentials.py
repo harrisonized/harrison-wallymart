@@ -4,7 +4,7 @@ from .credential_encoder import CredentialEncoder
 
 class Credentials:
     def __init__(self, username='', password=''):
-        self._customer_id = 0  # get from database
+        self._user_id = 0  # get from database
         self._username = username
         self._password = password  # only save encrypted
         if self._password != '':
@@ -13,8 +13,8 @@ class Credentials:
     # ----------------------------------------------------------------------
     # Public
 
-    def set_customer_id(self, customer_id):
-        self._customer_id = customer_id
+    def set_user_id(self, user_id):
+        self._user_id = user_id
 
     def set_username(self, username):
         self._username = username
@@ -22,8 +22,8 @@ class Credentials:
     def set_password(self, password):
         self._password = CredentialEncoder(password, 'sha256').item
 
-    def get_customer_id(self):
-        return self._customer_id
+    def get_user_id(self):
+        return self._user_id
 
     def get_username(self):
         return self._username

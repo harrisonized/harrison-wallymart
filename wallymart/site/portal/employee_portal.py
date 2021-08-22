@@ -13,6 +13,17 @@ from wallymart.order_manager.product import Product
 class EmployeePortal:
     """All methods are class methods so do not require instantiating the class
     This class is meant to be inherited by Pages
+
+    Methods:
+        employee_home
+            (1) view items to deliver
+            (2) view products
+            (3) add products
+            (4) update profile
+            (5) log out
+        delivery_page
+        add_products_page
+
     """
 
     # ----------------------------------------------------------------------
@@ -24,21 +35,23 @@ class EmployeePortal:
         while True:
             choice = input(
                 "Please choose: "
-                "(1) view delivery items, "
-                "(2) add products, "
-                "(3) update profile, "  # shared
-                "(4) log out: "
+                "(1) view items to deliver, "
+                "(2) view_products, "
+                "(3) add products, "
+                "(4) update profile, "
+                "(5) log out: "
             )
-            if choice not in ('1', '2', '3', '4'):
+            if choice not in ('1', '2', '3', '4', '5'):
                 print("Please pick a valid choice")
             else:
                 break
         logger.log(
             "Please choose: "
-            "(1) view delivery items, "
-            "(2) add products, "
-            "(3) update profile, "
-            "(4) log out: "
+            "(1) view items to deliver, "
+            "(2) view_products, "
+            "(3) add products, "
+            "(4) update profile, "
+            "(5) log out: "
             f"{choice}"
         )
         return choice
@@ -67,6 +80,7 @@ class EmployeePortal:
             logger = cls._logger
         database_connection = DatabaseConnection(f"products.csv")
         table = database_connection.table
+
         product = Product()  # container
 
         logger.log(
@@ -117,20 +131,24 @@ class EmployeePortal:
                 product.set_price(round(float(price), 2))  # to be saved
                 break
 
-        # write to database
-        last_id = table[f'product_id'].max()
-        if pd.isna(last_id):
-            last_id = 0
-        df = pd.DataFrame.from_records([
-            {'product_id': last_id + 1,
-             'product_name': product.get_product_name(),
-             'description': product.get_description(),
-             'quantity': product.get_quantity(),
-             'price': product.get_price(),
-            }
-        ])
-        database_connection.append(df)
-        logger.log("Product created!")
+        # save
+        while True:
+            confirm = input("Type 'yes' to confirm your new product, "
+                            "Enter empty to exit without saving: ")
+            if confirm == 'yes':
+                last_id = table[f'product_id'].max()
+                if pd.isna(last_id):
+                    last_id = 0
+                df = pd.DataFrame.from_records([
+                    {'product_id': last_id + 1,
+                     'product_name': product.get_product_name(),
+                     'description': product.get_description(),
+                     'quantity': product.get_quantity(),
+                     'price': product.get_price(),
+                    }
+                ])
+                database_connection.append(df)
+                logger.log("Product created!")
 
         return 200
     

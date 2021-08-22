@@ -16,6 +16,24 @@ from wallymart.order_manager.review import Review
 class CustomerPortal:
     """All methods are class methods so do not require instantiating the class
     This class is meant to be inherited by Pages
+
+    Methods:
+        customer_home
+            (1) view products
+            (2) checkout
+            (3) update profile
+            (4) logout
+        checkout_page
+            (1) submit order
+            (2) cancel order
+        customer_profile_page
+            (1) check data
+            (2) update first name
+            (3) update last name
+            (4) update street address
+            (5) update zip code
+            (6) save changes
+            (7) exit without saving
     """
 
     # ----------------------------------------------------------------------
@@ -54,108 +72,6 @@ class CustomerPortal:
         """Requires that cls._logger be used as the logger
         """
         return cls.__home(cls._logger)
-
-    @classmethod
-    def view_products(cls, shopping_cart, logger=None):
-        """Should probably be handled through DatabaseConnection
-        """
-        if logger is None:
-            logger = cls._logger
-        database_connection = DatabaseConnection(f"products.csv")
-
-        while True:
-
-            view = database_connection.get_view()
-            print(view)
-
-            choice = input(
-                "Please choose: "
-                "(1) next page, "
-                "(2) previous page, "
-                "(3) add item to cart, "
-                "(4) write a review, "
-                "Enter empty to go back "
-            )
-            if choice not in ('1', '2', '3', '4'):
-                break
-
-            if choice=='1':  # next page
-                database_connection.next_page()
-            elif choice=='2':  # previous page
-                database_connection.prev_page()
-
-             # add item to cart
-            elif choice=='3':
-
-                order_item = OrderItem()
-
-                # enter product_id
-                while True:
-                    product_id = input("Enter the product id: ")
-                    try:
-                        product_id = int(product_id)
-                    except:
-                        logger.log("product id should be an integer")
-                    order_item.set_product_id(product_id)
-                    break
-
-                # enter quantity
-                while True:
-                    quantity = input("Enter quantity: ")
-                    try:
-                        quantity = int(quantity)
-                    except:
-                        logger.log("quantity should be an integer")
-                    order_item.set_quantity(quantity)
-                    break
-
-                shopping_cart.append(order_item)
-
-            elif choice=='4':
-
-                review = Review()
-
-                # get product_id
-                while True:
-                    product_id = input("Enter the product id: ")
-                    try:
-                        product_id = int(product_id)
-                    except:
-                        logger.log("product id should be an integer")
-                    review.set_product_id(product_id)
-                    break
-
-                # enter review
-                while True:
-                    review_text = input("Enter your review: ")
-                    review.set_review_text(review_text)
-                    break
-
-                while True:
-                    confirm = input("Type 'yes' to confirm your review, "
-                                    "Enter empty to exit without saving: ")
-                    if confirm == 'yes':
-
-                        # save order to orders table
-                        database_connection = DatabaseConnection(f"reviews.csv")
-                        last_id = database_connection.table['review_id'].max()
-                        if pd.isna(last_id):
-                            last_id = 0
-                        df = pd.DataFrame.from_records([
-                            {'review_id': last_id + 1,
-                             'customer_id': shopping_cart.get_customer_id(),
-                             'product_id': review.get_product_id(),
-                             'review_text': review.get_review_text()
-                            }
-                        ])
-                        database_connection.append(df)
-                        break
-
-                    else:
-                        break
-
-            else:
-                break
 
     @classmethod
     def checkout_page(cls, shopping_cart, logger=None):

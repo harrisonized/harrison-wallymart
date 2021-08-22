@@ -15,6 +15,19 @@ from .portal.employee_portal import EmployeePortal
 
 class Pages(CustomerPortal, EmployeePortal):
     """All methods are class methods so do not require instantiating the class
+
+    Methods:
+        add_logger
+        home
+        signup_page
+        login_page
+        view_products
+            (1) refresh products view
+            (2) next page
+            (3) previous page
+            (4) add item to cart
+            (5) write a review
+            (6) view reviews
     """
     _logger = logging.getLogger(__name__)
 
@@ -158,6 +171,153 @@ class Pages(CustomerPortal, EmployeePortal):
                 logger.log("Please enter a valid username and password combination")
             else:
                 logger.log("Logged in!")
-                credentials.set_customer_id(df['{user}_id'].iloc[0])
+                credentials.set_customer_id(df[f'{user}_id'].iloc[0])
                 authenticated = True
                 return credentials, True
+
+    @classmethod
+    def view_products(cls, shopping_cart, customer_or_employee, logger=None):
+
+        if logger is None:
+            logger = cls._logger
+
+        database_connection = DatabaseConnection(f"products.csv")
+        view = database_connection.get_view()
+        print(view)
+
+        while True:
+
+            if customer_or_employee=='1':
+                choice = input(
+                    "Please choose: "
+                    "(1) refresh products view, "
+                    "(2) next page, "
+                    "(3) previous page, "
+                    "(4) add item to cart, "
+                    "(5) write a review, "
+                    "(6) view reviews, "
+                    "Enter empty to go back "
+                )
+                if choice not in ('1', '2', '3', '4', '5', '6'):
+                    break
+
+            # limit choices for employees
+            else:  # customer_or_employee=='2':
+                choice = input(
+                    "Please choose: "
+                    "(1) refresh products view, "
+                    "(2) next page, "
+                    "(3) previous page, "
+                    "Enter empty to go back "
+                )
+                if choice not in ('1', '2', '3'):
+                    break
+
+            if choice=='1':
+                view = database_connection.get_view()
+                print(view)
+
+            elif choice=='2':  # next page
+                database_connection.next_page()
+                view = database_connection.get_view()
+                print(view)
+
+            elif choice=='3':  # previous page
+                database_connection.prev_page()
+                view = database_connection.get_view()
+                print(view)
+
+             # add item to cart
+            elif choice=='4':
+
+                order_item = OrderItem()
+
+                # enter product_id
+                while True:
+                    product_id = input("Enter the product id: ")
+                    try:
+                        product_id = int(product_id)
+                    except:
+                        logger.log("product id should be an integer")
+                    order_item.set_product_id(product_id)
+                    break
+
+                # enter quantity
+                while True:
+                    quantity = input("Enter quantity: ")
+                    try:
+                        quantity = int(quantity)
+                    except:
+                        logger.log("quantity should be an integer")
+                    order_item.set_quantity(quantity)
+                    break
+
+                shopping_cart.append(order_item)
+
+            elif choice=='5':
+
+                review = Review()
+
+                # get product_id
+                while True:
+                    product_id = input("Enter the product id: ")
+                    try:
+                        product_id = int(product_id)
+                    except:
+                        logger.log("product id should be an integer")
+                    review.set_product_id(product_id)
+                    break
+
+                # enter review
+                while True:
+                    review_text = input("Enter your review: ")
+                    review.set_review_text(review_text)
+                    break
+
+                # save review
+                while True:
+                    confirm = input("Type 'yes' to confirm your review, "
+                                    "Enter empty to exit without saving: ")
+                    if confirm == 'yes':
+
+                        # save order to orders table
+                        review_db = DatabaseConnection(f"reviews.csv")
+                        last_id = review_db.table['review_id'].max()
+                        if pd.isna(last_id):
+                            last_id = 0
+                        df = pd.DataFrame.from_records([
+                            {'review_id': last_id + 1,
+                             'customer_id': shopping_cart.get_customer_id(),
+                             'product_id': review.get_product_id(),
+                             'review_text': review.get_review_text()
+                            }
+                        ])
+                        review_db.append(df)
+
+                    break
+
+            elif choice=='6':
+
+                # get product_id
+                while True:
+                    product_id = input("Enter the product id: ")
+                    try:
+                        product_id = int(product_id)
+                    except:
+                        logger.log("product id should be an integer")
+                    break
+
+                # need to come back and make this pretty
+                review_db = DatabaseConnection(f"reviews.csv")
+                table = review_db.table
+                view = table.loc[
+                            (table['product_id']==product_id),
+                            ['customer_id', 'review_text']
+                        ]
+                if not view.empty:
+                    print(view)
+                else:
+                    print("No reviews yet. Please consider writing one. ")
+
+            else:
+                break

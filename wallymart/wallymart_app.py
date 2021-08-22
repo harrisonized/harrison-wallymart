@@ -22,13 +22,9 @@ class WallymartApp:
         self._logger = logging.getLogger(__name__)
 
         self._customer_or_employee = None
-
         self._credentials = None
         self._authenticated = False
-        
-        # self._shopping_cart = ShoppingCart()
-        self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
-        self._shopping_cart.set_customer_id(1)
+        self._shopping_cart = ShoppingCart()
 
         # initialize app
         self._parse_args()
@@ -81,10 +77,13 @@ class WallymartApp:
         """
 
         # testing
-        self._customer_or_employee = '1'
+        self._customer_or_employee = '2'
         self._authenticated = True  # use for testing
         self._credentials = Credentials('harrison', 'password')
-        self._credentials.set_customer_id(1)
+        self._credentials.set_user_id(1)
+
+        # self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
+        # self._shopping_cart.set_user_id(1)
 
         while not self._authenticated:
             self._customer_or_employee, signup_or_login = Pages.home()
@@ -103,12 +102,12 @@ class WallymartApp:
                 customer_choice = Pages.customer_home()
 
                 if customer_choice=='1':
-                    Pages.view_products(self._shopping_cart)
+                    Pages.view_products(self._shopping_cart, self._customer_or_employee)
                 elif customer_choice=='2':
                     Pages.checkout_page(self._shopping_cart)
                 elif customer_choice=='3':
                     Pages.customer_profile_page(
-                        customer_id=self._credentials.get_customer_id()
+                        customer_id=self._credentials.get_user_id()
                     )
                 elif customer_choice=='4':
                     self._authenticated = False
@@ -122,10 +121,12 @@ class WallymartApp:
                 if employee_choice=='1':
                     Pages.delivery_page()
                 elif employee_choice=='2':
-                    Pages.add_products_page()
+                    Pages.view_products(None, self._customer_or_employee)
                 elif employee_choice=='3':
-                    Pages.employee_profile_page()
+                    Pages.add_products_page()
                 elif employee_choice=='4':
+                    Pages.employee_profile_page()
+                elif employee_choice=='5':
                     self._authenticated = False
                 else:
                     pass
