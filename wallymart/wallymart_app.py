@@ -73,17 +73,23 @@ class WallymartApp:
         self._logger.log(msg, level)
 
     def run(self):
-        """main
         """
+        Skip login for customer:
+        >>> self._customer_or_employee = '1'
+        >>> self._authenticated = True  # use for testing
+        >>> self._credentials = Credentials('harrison', 'password')
+        >>> self._credentials.set_user_id(1)
 
-        # testing
-        self._customer_or_employee = '2'
-        self._authenticated = True  # use for testing
-        self._credentials = Credentials('harrison', 'password')
-        self._credentials.set_user_id(1)
+        Go directly to checkout as a customer:
+        >>> self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
+        >>> self._shopping_cart.set_customer_id(1)
 
-        # self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
-        # self._shopping_cart.set_user_id(1)
+        Skip login for employee:
+        >>> self._customer_or_employee = '2'
+        >>> self._authenticated = True  # use for testing
+        >>> self._credentials = Credentials('harrison', 'password')
+        >>> self._credentials.set_user_id(1)
+        """
 
         while not self._authenticated:
             self._customer_or_employee, signup_or_login = Pages.home()
@@ -125,7 +131,9 @@ class WallymartApp:
                 elif employee_choice=='3':
                     Pages.add_products_page()
                 elif employee_choice=='4':
-                    Pages.employee_profile_page()
+                    Pages.employee_profile_page(
+                        employee_id=self._credentials.get_user_id()
+                    )
                 elif employee_choice=='5':
                     self._authenticated = False
                 else:

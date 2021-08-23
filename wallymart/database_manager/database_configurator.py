@@ -71,9 +71,6 @@ class DatabaseConfigurator:
                 'employee_id',
                 'first_name',
                 'last_name',
-                'start_date',
-                'end_date',
-                'is_current',
             ])
             df.to_csv(f'{self._repo_dir}/{self.data_dir}/{filename}', index=None)
         

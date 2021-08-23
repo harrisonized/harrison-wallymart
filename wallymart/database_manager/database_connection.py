@@ -56,7 +56,7 @@ class DatabaseConnection:
         self.table.to_csv(self._filepath, index=None)
 
     def get_view(self):
-        view = self.table[(self.page-1)*self.num_items_per_page:self.page*self.num_items_per_page]
+        view = self.table.iloc[(self.page-1)*self.num_items_per_page:self.page*self.num_items_per_page]
         return view
 
     def next_page(self):

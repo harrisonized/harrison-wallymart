@@ -132,7 +132,7 @@ class CustomerPortal:
                      'order': json.dumps(view[
                          ['product_name', 'quantity']
                      ].to_dict('records')), 
-                     'total_price': None,
+                     'total_price': total_price,
                      'is_received': False
                     }
                 ])
@@ -149,7 +149,7 @@ class CustomerPortal:
         if logger is None:
             logger = cls._logger
 
-        
+        database_connection = DatabaseConnection(f"customers.csv")
         table = database_connection.table
         customer = Customer(customer_id)
 
@@ -177,7 +177,7 @@ class CustomerPortal:
                 first_name = input("Enter your first name: ")
                 customer.set_first_name(first_name)
             elif choice=='3':
-                last_name = input("Enter your first name: ")
+                last_name = input("Enter your last name: ")
                 customer.set_last_name(last_name)
             elif choice=='4':
                 street_address = input("Enter your street address: ")

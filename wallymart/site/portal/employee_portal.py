@@ -4,6 +4,7 @@
 """
 
 import logging
+import json
 import pandas as pd
 from wallymart.database_manager.database_connection import DatabaseConnection
 from wallymart.credential_manager.employee import Employee
@@ -22,8 +23,17 @@ class EmployeePortal:
             (4) update profile
             (5) log out
         delivery_page
+            (1) refresh orders view
+            (2) next page
+            (3) previous page
+            (4) examine order
         add_products_page
-
+        employee_profile_page
+            (1) check data
+            (2) update first name
+            (3) update last name
+            (4) save changes
+            (5) exit without savin
     """
 
     # ----------------------------------------------------------------------
@@ -65,13 +75,62 @@ class EmployeePortal:
         """
         return cls.__home(cls._logger)
 
-    # ----------------------------------------------------------------------
-    # TODO
-
     @classmethod
     def delivery_page(cls, logger=None):
         if logger is None:
             logger = cls._logger
+
+        database_connection = DatabaseConnection(f"orders.csv")
+        view = database_connection.get_view()
+        print(view)
+
+        while True:
+
+            choice = input(
+                "Please choose: "
+                "(1) refresh orders view, "
+                "(2) next page, "
+                "(3) previous page, "
+                "(4) examine order, "
+                "Enter empty to go back "
+            )
+            if choice not in ('1', '2', '3', '4'):
+                break
+
+            if choice=='1':
+                view = database_connection.get_view()
+                print(view)
+
+            # next page
+            elif choice=='2': 
+                database_connection.next_page()
+                view = database_connection.get_view()
+                print(view)
+
+            # previous page
+            elif choice=='3':
+                database_connection.prev_page()
+                view = database_connection.get_view()
+                print(view)
+
+            elif choice=='4':
+
+                # get product_id
+                while True:
+                    order_id = input("Enter the order id: ")
+                    try:
+                        order_id = int(order_id)
+                    except:
+                        logger.log("order id should be an integer")
+                    break
+
+                table = database_connection.table
+                order = table.loc[(table['order_id']==order_id), "order"][0]  # order_id should be unique
+                print(json.dumps(json.loads(order), indent=1))  # pretty print the json
+
+
+            else:
+                break
 
     @classmethod
     def add_products_page(cls, logger=None):
@@ -149,6 +208,61 @@ class EmployeePortal:
                 ])
                 database_connection.append(df)
                 logger.log("Product created!")
+                break
 
         return 200
-    
+
+    @classmethod
+    def profile_page(cls, employee_id, logger=None):
+        if logger is None:
+            logger = cls._logger
+
+        database_connection = DatabaseConnection(f"employees.csv")
+        table = database_connection.table
+        employee = Employee(employee_id)
+
+        view = table[(table['employee_id']==employee.get_employee_id())]
+        print(view)
+
+        while True:
+
+            choice = input(
+                "Please choose: "
+                "(1) check data, "
+                "(2) update first name, "
+                "(3) update last name, "
+                "(4) save changes, "
+                "(5) exit without saving "
+            )
+            if choice not in ('1', '2', '3', '4', '5'):
+                print("Please pick a valid choice")
+            elif choice=='1':
+                view = table[(table['employee_id']==employee.get_employee_id())]
+                print(view)
+            elif choice=='2':
+                first_name = input("Enter your first name: ")
+                employee.set_first_name(first_name)
+            elif choice=='3':
+                last_name = input("Enter your last name: ")
+                employee.set_last_name(last_name)
+            elif choice=='4':
+                table[
+                    (table['employee_id']==employee.get_employee_id())
+                ] = pd.Series(
+                    {'employee_id': employee.get_employee_id(),
+                     'first_name': employee.get_first_name(),
+                     'last_name': employee.get_last_name(),
+                    }
+                )
+                database_connection.overwrite()
+                print("Information saved!")
+            else:
+                break
+
+    __profile_page = profile_page  # local reference
+
+    @classmethod
+    def employee_profile_page(cls, employee_id):
+        """Requires that cls._logger be used as the logger
+        """
+        return cls.__profile_page(employee_id, cls._logger)
