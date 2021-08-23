@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import pandas as pd
-from wallymart.order_manager.order_item import OrderItem
+from wallymart.orm.order_item import OrderItem
 
 
 class ShoppingCart:
@@ -22,7 +22,10 @@ class ShoppingCart:
     def append(self, item):
         """Add instances of the OrderItem class
         """
-        self.items.append(item)
+        if isinstance(item, OrderItem):
+            self.items.append(item)
+        else:
+            raise ValueError("Please enter an OrderItem")
 
     def reset(self):
         """Remove all items from the shopping cart

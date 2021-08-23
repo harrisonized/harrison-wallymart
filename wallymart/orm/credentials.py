@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from .credential_encoder import CredentialEncoder
+from wallymart.utils.credential_encoder import CredentialEncoder
 
 class Credentials:
     def __init__(self, username='', password=''):

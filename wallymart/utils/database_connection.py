@@ -3,7 +3,7 @@
 import os
 import re
 import pandas as pd
-from wallymart.order_manager.order_item import OrderItem
+from wallymart.orm.order_item import OrderItem
 
 
 class DatabaseConnection:

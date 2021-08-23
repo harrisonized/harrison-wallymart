@@ -7,11 +7,11 @@ import os
 import logging
 import argparse
 
-from wallymart.log_manager.logger_configurator import LoggerConfigurator
-from wallymart.database_manager.database_configurator import DatabaseConfigurator
-from wallymart.credential_manager.credentials import Credentials
-from wallymart.order_manager.shopping_cart import ShoppingCart
-from wallymart.order_manager.order_item import OrderItem
+from wallymart.startup.logger_configurator import LoggerConfigurator
+from wallymart.startup.database_configurator import DatabaseConfigurator
+from wallymart.orm.credentials import Credentials
+from wallymart.orm.order_item import OrderItem
+from wallymart.utils.shopping_cart import ShoppingCart
 from wallymart.site.pages import Pages
 
 
@@ -31,7 +31,7 @@ class WallymartApp:
         self._configure_database()
         self._configure_log()
         self._logger.add_stream_handler()
-        # self._logger.add_file_handler()  # disable during testing
+        self._logger.add_file_handler()  # disable during testing
         Pages.add_logger(self._logger)
 
     # ----------------------------------------------------------------------

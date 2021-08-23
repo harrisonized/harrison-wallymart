@@ -6,9 +6,9 @@
 import logging
 import json
 import pandas as pd
-from wallymart.database_manager.database_connection import DatabaseConnection
-from wallymart.credential_manager.employee import Employee
-from wallymart.order_manager.product import Product
+from wallymart.utils.database_connection import DatabaseConnection
+from wallymart.orm.employee import Employee
+from wallymart.orm.product import Product
 
 
 class EmployeePortal:
@@ -52,7 +52,7 @@ class EmployeePortal:
                 "(5) log out: "
             )
             if choice not in ('1', '2', '3', '4', '5'):
-                print("Please pick a valid choice")
+                logger.log("Please pick a valid choice")
             else:
                 break
         logger.log(
@@ -82,7 +82,7 @@ class EmployeePortal:
 
         database_connection = DatabaseConnection(f"orders.csv")
         view = database_connection.get_view()
-        print(view)
+        logger.log(view)
 
         while True:
 
@@ -99,19 +99,19 @@ class EmployeePortal:
 
             if choice=='1':
                 view = database_connection.get_view()
-                print(view)
+                logger.log(view)
 
             # next page
             elif choice=='2': 
                 database_connection.next_page()
                 view = database_connection.get_view()
-                print(view)
+                logger.log(view)
 
             # previous page
             elif choice=='3':
                 database_connection.prev_page()
                 view = database_connection.get_view()
-                print(view)
+                logger.log(view)
 
             elif choice=='4':
 
@@ -126,7 +126,7 @@ class EmployeePortal:
 
                 table = database_connection.table
                 order = table.loc[(table['order_id']==order_id), "order"][0]  # order_id should be unique
-                print(json.dumps(json.loads(order), indent=1))  # pretty print the json
+                logger.log(json.dumps(json.loads(order), indent=1))  # pretty logger.log the json
 
 
             else:
@@ -222,7 +222,7 @@ class EmployeePortal:
         employee = Employee(employee_id)
 
         view = table[(table['employee_id']==employee.get_employee_id())]
-        print(view)
+        logger.log(view)
 
         while True:
 
@@ -235,10 +235,10 @@ class EmployeePortal:
                 "(5) exit without saving "
             )
             if choice not in ('1', '2', '3', '4', '5'):
-                print("Please pick a valid choice")
+                logger.log("Please pick a valid choice")
             elif choice=='1':
                 view = table[(table['employee_id']==employee.get_employee_id())]
-                print(view)
+                logger.log(view)
             elif choice=='2':
                 first_name = input("Enter your first name: ")
                 employee.set_first_name(first_name)
@@ -255,7 +255,7 @@ class EmployeePortal:
                     }
                 )
                 database_connection.overwrite()
-                print("Information saved!")
+                logger.log("Information saved!")
             else:
                 break
 

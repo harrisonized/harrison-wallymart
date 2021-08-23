@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 class Customer:
     """Container used to hold data from the database
     Should be instantiated when authenticated

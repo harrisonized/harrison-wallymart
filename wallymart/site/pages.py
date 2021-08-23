@@ -5,10 +5,10 @@
 
 import logging
 import pandas as pd
-from wallymart.database_manager.database_connection import DatabaseConnection
-from wallymart.credential_manager.credentials import Credentials
-from wallymart.credential_manager.customer import Customer
-from wallymart.credential_manager.employee import Employee
+from wallymart.utils.database_connection import DatabaseConnection
+from wallymart.orm.credentials import Credentials
+from wallymart.orm.customer import Customer
+from wallymart.orm.employee import Employee
 from .portal.customer_portal import CustomerPortal
 from .portal.employee_portal import EmployeePortal
 
@@ -52,7 +52,7 @@ class Pages(CustomerPortal, EmployeePortal):
         while True:
             customer_or_employee = input("Are you a: (1) customer or (2) employee? ")
             if customer_or_employee not in ('1', '2'):
-                print("Please pick a valid choice")
+                logger.log("Please pick a valid choice")
             else:
                 break
         logger.log(f"Are you a: (1) customer or (2) employee? {customer_or_employee}")
@@ -60,7 +60,7 @@ class Pages(CustomerPortal, EmployeePortal):
         while True:
             signup_or_login = input("Please choose: (1) create account, (2) log in: ")
             if signup_or_login not in ('1', '2'):
-                print("Please pick a valid choice")
+                logger.log("Please pick a valid choice")
             else:
                 break
         logger.log(f"Please choose: (1) create account, (2) log in: {signup_or_login}")
@@ -171,7 +171,7 @@ class Pages(CustomerPortal, EmployeePortal):
                 logger.log("Please enter a valid username and password combination")
             else:
                 logger.log("Logged in!")
-                credentials.set_customer_id(df[f'{user}_id'].iloc[0])
+                credentials.set_user_id(df[f'{user}_id'].iloc[0])
                 authenticated = True
                 return credentials, True
 
@@ -183,7 +183,7 @@ class Pages(CustomerPortal, EmployeePortal):
 
         database_connection = DatabaseConnection(f"products.csv")
         view = database_connection.get_view()
-        print(view)
+        logger.log(view)
 
         while True:
 
@@ -215,17 +215,17 @@ class Pages(CustomerPortal, EmployeePortal):
 
             if choice=='1':
                 view = database_connection.get_view()
-                print(view)
+                logger.log(view)
 
             elif choice=='2':  # next page
                 database_connection.next_page()
                 view = database_connection.get_view()
-                print(view)
+                logger.log(view)
 
             elif choice=='3':  # previous page
                 database_connection.prev_page()
                 view = database_connection.get_view()
-                print(view)
+                logger.log(view)
 
              # add item to cart
             elif choice=='4':
@@ -315,9 +315,9 @@ class Pages(CustomerPortal, EmployeePortal):
                             ['customer_id', 'review_text']
                         ]
                 if not view.empty:
-                    print(view)
+                    logger.log(view)
                 else:
-                    print("No reviews yet. Please consider writing one. ")
+                    logger.log("No reviews yet. Please consider writing one. ")
 
             else:
                 break

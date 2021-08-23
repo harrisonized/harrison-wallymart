@@ -7,10 +7,10 @@ import logging
 import json
 import pandas as pd
 
-from wallymart.database_manager.database_connection import DatabaseConnection
-from wallymart.credential_manager.customer import Customer
-from wallymart.order_manager.order_item import OrderItem
-from wallymart.order_manager.review import Review
+from wallymart.utils.database_connection import DatabaseConnection
+from wallymart.orm.customer import Customer
+from wallymart.orm.order_item import OrderItem
+from wallymart.orm.review import Review
 
 
 class CustomerPortal:
@@ -51,7 +51,7 @@ class CustomerPortal:
                 "(4) log out: "
             )
             if choice not in ('1', '2', '3', '4'):
-                print("Please pick a valid choice")
+                logger.log("Please pick a valid choice")
             else:
                 break
         logger.log(
@@ -95,10 +95,10 @@ class CustomerPortal:
                 view['total'] = view['quantity']*view['price']
                 total_price = sum(view['total'])
 
-                print(view)
-                print(f'Total price: {total_price}')
+                logger.log(view)
+                logger.log(f'Total price: {total_price}')
             else:
-                print("No items in cart, returning to home...")
+                logger.log("No items in cart, returning to home...")
                 break
 
             choice = input(
@@ -138,7 +138,7 @@ class CustomerPortal:
                 ])
                 database_connection.append(df)
                 shopping_cart.reset()
-                print("Order submitted!")
+                logger.log("Order submitted!")
                 break
 
             else:
@@ -154,7 +154,7 @@ class CustomerPortal:
         customer = Customer(customer_id)
 
         view = table[(table['customer_id']==customer.get_customer_id())]
-        print(view)
+        logger.log(view)
 
         while True:
 
@@ -169,10 +169,10 @@ class CustomerPortal:
                 "(7) exit without saving "
             )
             if choice not in ('1', '2', '3', '4', '5', '6', '7'):
-                print("Please pick a valid choice")
+                logger.log("Please pick a valid choice")
             elif choice=='1':
                 view = table[(table['customer_id']==customer.get_customer_id())]
-                print(view)
+                logger.log(view)
             elif choice=='2':
                 first_name = input("Enter your first name: ")
                 customer.set_first_name(first_name)
@@ -197,7 +197,7 @@ class CustomerPortal:
                     }
                 )
                 database_connection.overwrite()
-                print("Information saved!")
+                logger.log("Information saved!")
             else:
                 break
 
