@@ -16,7 +16,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="wallymart.wallymart_app" href="_autosummary/wallymart.wallymart_app.html" />
+    <link rel="next" title="wallymart.site" href="_autosummary/wallymart.site.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -41,20 +41,46 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/wallymart.wallymart_app.html#module-wallymart.wallymart_app" title="wallymart.wallymart_app"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wallymart.wallymart_app</span></code></a></p></td>
-<td><p>Entry point for command-line application</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/wallymart.site.html#module-wallymart.site" title="wallymart.site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wallymart.site</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/wallymart.site.html#module-wallymart.site" title="wallymart.site"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wallymart.site</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/wallymart.startup.html#module-wallymart.startup" title="wallymart.startup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wallymart.startup</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/wallymart.startup.html#module-wallymart.startup" title="wallymart.startup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wallymart.startup</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="_autosummary/wallymart.utils.html#module-wallymart.utils" title="wallymart.utils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wallymart.utils</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/wallymart.utils.html#module-wallymart.utils" title="wallymart.utils"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wallymart.utils</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py class">
+<dt id="wallymart.wallymart_app.WallymartApp">
+<em class="property">class </em><code class="sig-prename descclassname">wallymart.wallymart_app.</code><code class="sig-name descname">WallymartApp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.wallymart_app.WallymartApp" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="wallymart.wallymart_app.WallymartApp.log">
+<code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">level</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.wallymart_app.WallymartApp.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.wallymart_app.WallymartApp.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.wallymart_app.WallymartApp.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skip login for customer:
+&gt;&gt;&gt; self._customer_or_employee = ‘1’
+&gt;&gt;&gt; self._authenticated = True  # use for testing
+&gt;&gt;&gt; self._credentials = Credentials(‘harrison’, ‘password’)
+&gt;&gt;&gt; self._credentials.set_user_id(1)</p>
+<p>Go directly to checkout as a customer:
+&gt;&gt;&gt; self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
+&gt;&gt;&gt; self._shopping_cart.set_customer_id(1)</p>
+<p>Skip login for employee:
+&gt;&gt;&gt; self._customer_or_employee = ‘2’
+&gt;&gt;&gt; self._authenticated = True  # use for testing
+&gt;&gt;&gt; self._credentials = Credentials(‘harrison’, ‘password’)
+&gt;&gt;&gt; self._credentials.set_user_id(1)</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -75,7 +101,6 @@
 
 <h3>Navigation</h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="_autosummary/wallymart.wallymart_app.html">wallymart.wallymart_app</a></li>
 <li class="toctree-l1"><a class="reference internal" href="_autosummary/wallymart.site.html">wallymart.site</a></li>
 <li class="toctree-l1"><a class="reference internal" href="_autosummary/wallymart.startup.html">wallymart.startup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="_autosummary/wallymart.utils.html">wallymart.utils</a></li>
@@ -85,7 +110,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="_autosummary/wallymart.wallymart_app.html" title="next chapter">wallymart.wallymart_app</a></li>
+      <li>Next: <a href="_autosummary/wallymart.site.html" title="next chapter">wallymart.site</a></li>
   </ul></li>
 </ul>
 </div>

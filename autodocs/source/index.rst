@@ -11,7 +11,9 @@ Welcome to wallymart's documentation!
    :template: custom-module-template.rst
    :recursive:
 
-   wallymart.wallymart_app
    wallymart.site
    wallymart.startup
    wallymart.utils
+
+.. autoclass:: wallymart.wallymart_app.WallymartApp
+   :members:
