@@ -1,0 +1,2 @@
+order_id,customer_id,order,total_price,is_received
+1,1,"[{""product_name"": ""Bitcoin"", ""quantity"": 2}, {""product_name"": ""Ethereum"", ""quantity"": 3}]",107900.0,False

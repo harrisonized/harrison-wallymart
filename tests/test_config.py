@@ -2,7 +2,7 @@
 
 import unittest
 import os
-from wallymart.database_manager.database_configurator import DatabaseConfigurator
+from wallymart.startup.database_configurator import DatabaseConfigurator
 
 class TestConfig(unittest.TestCase):
 
