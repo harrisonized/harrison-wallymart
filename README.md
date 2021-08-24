@@ -34,7 +34,7 @@ python setup.py develop
 
 
 
-## Command Line Entry Point
+## Command Line App Entry Point
 
 ```django
 ./run-wallymart.sh
@@ -43,6 +43,8 @@ python setup.py develop
 
 
 ## Django Entry Point
+
+Note: This part is not built.
 
 ```django
 python manage.py runserver
