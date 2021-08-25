@@ -3,17 +3,27 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to wallymart's documentation!
-=====================================
+Welcome to Wallymart
+====================
 
-.. autosummary::
-   :toctree: _autosummary
-   :template: custom-module-template.rst
-   :recursive:
 
-   wallymart.site
-   wallymart.startup
-   wallymart.utils
+Main App
+--------
 
 .. autoclass:: wallymart.wallymart_app.WallymartApp
    :members:
+   :inherited-members:
+
+
+Helper Classes
+--------------
+
+If you are looking for information on a specific function, class or
+method, this part of the documentation is for you.
+
+.. toctree::
+   :maxdepth: 2
+
+   api
+
+
