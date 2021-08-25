@@ -108,7 +108,7 @@ class WallymartApp:
                 customer_choice = Pages.customer_home()
 
                 if customer_choice=='1':
-                    Pages.view_products(self._shopping_cart, self._customer_or_employee)
+                    Pages.products_page(self._shopping_cart, self._customer_or_employee)
                 elif customer_choice=='2':
                     Pages.checkout_page(self._shopping_cart)
                 elif customer_choice=='3':
@@ -127,7 +127,7 @@ class WallymartApp:
                 if employee_choice=='1':
                     Pages.delivery_page()
                 elif employee_choice=='2':
-                    Pages.view_products(None, self._customer_or_employee)
+                    Pages.products_page(None, self._customer_or_employee)
                 elif employee_choice=='3':
                     Pages.add_products_page()
                 elif employee_choice=='4':

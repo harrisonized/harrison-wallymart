@@ -176,7 +176,7 @@ class Pages(CustomerPortal, EmployeePortal):
                 return credentials, True
 
     @classmethod
-    def view_products(cls, shopping_cart, customer_or_employee, logger=None):
+    def products_page(cls, shopping_cart, customer_or_employee, logger=None):
 
         if logger is None:
             logger = cls._logger
