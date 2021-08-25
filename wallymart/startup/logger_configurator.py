@@ -29,13 +29,15 @@ class LoggerConfigurator:
     def __init__(self,
                  logger=None,
                  log_dir='log',
-                 filename='log',):
+                 filename='log',
+                 level=logging.INFO,
+                ):
         if logger is None:
             logger = logging.getLogger(__name__)
         self.logger = logger
         self.log_dir = log_dir
         self.filename = filename
-        self.level = logging.INFO
+        self.level = level
         self.logger.setLevel(self.level)
 
     # ----------------------------------------------------------------------

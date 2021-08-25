@@ -22,7 +22,7 @@ Option #1: Design a web store complete with products, reviews, ordering capabili
 
 Default conda environment is `wallymart`
 
-```django
+```
 # create
 conda create --name wallymart python=3.8  # The Python version is important!
 conda activate wallymart
@@ -36,7 +36,7 @@ python setup.py develop
 
 ## Command Line App Entry Point
 
-```django
+```
 ./run-wallymart.sh
 ```
 
@@ -46,6 +46,6 @@ python setup.py develop
 
 Note: This part is not built.
 
-```django
+```
 python manage.py runserver
 ```
