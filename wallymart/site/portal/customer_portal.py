@@ -12,26 +12,7 @@ from wallymart.orm.customer import Customer
 
 
 class CustomerPortal:
-    """All methods are class methods so do not require instantiating the class
-    This class is meant to be inherited by Pages
-
-    Methods:
-        customer_home
-            (1) view products
-            (2) checkout
-            (3) update profile
-            (4) logout
-        checkout_page
-            (1) submit order
-            (2) cancel order
-        customer_profile_page
-            (1) check data
-            (2) update first name
-            (3) update last name
-            (4) update street address
-            (5) update zip code
-            (6) save changes
-            (7) exit without saving
+    """This class is meant to be inherited by Pages
     """
 
     # ----------------------------------------------------------------------
@@ -39,7 +20,9 @@ class CustomerPortal:
 
     @staticmethod
     def home(logger):
-
+        """Customer Home Page. Prompts the customer to view products, checkout,
+        update profile, or log out.
+        """
         while True:
             choice = input(
                 "Please choose: "
@@ -67,13 +50,18 @@ class CustomerPortal:
 
     @classmethod
     def customer_home(cls):
-        """Requires that cls._logger be used as the logger
+        """Prompts the customer to view products, checkout, update profile, or log out. Calls upon the 
+        :meth:`wallymart.site.portal.customer_portal.CustomerPortal.home` method
+        and prevents name conflicts when inherited by Pages.
         """
         return cls.__home(cls._logger)
 
     @classmethod
     def checkout_page(cls, shopping_cart, logger=None):
-
+        """Enables the customer to view the order items in the shopping cart,
+        then choose whether to submit the order or cancel the cart. If the customer
+        submits the order, prompts the customer for credit card information.
+        """
         if logger is None:
             logger = cls._logger
 
@@ -111,6 +99,7 @@ class CustomerPortal:
             if choice=='1':
 
                 # placeholder for real credit card auth
+                # not implemented at this time
                 cc_no = input(
                     "Please enter your credit card number. "
                     "Note that we do not save this information."
@@ -144,6 +133,8 @@ class CustomerPortal:
 
     @classmethod
     def profile_page(cls, customer_id, logger=None):
+        """Enables the customer to update their profile.
+        """
         if logger is None:
             logger = cls._logger
 
@@ -203,6 +194,8 @@ class CustomerPortal:
 
     @classmethod
     def customer_profile_page(cls, customer_id):
-        """Requires that cls._logger be used as the logger
+        """Enables the customer to update their profile. Calls upon the 
+        :meth:`wallymart.site.portal.customer_portal.CustomerPortal.profile_page`
+        method and prevents name conflicts when inherited by Pages.
         """
         return cls.__profile_page(customer_id, cls._logger)

@@ -35,33 +35,67 @@
             
   <section id="welcome-to-wallymart">
 <h1>Welcome to Wallymart<a class="headerlink" href="#welcome-to-wallymart" title="Permalink to this headline">¶</a></h1>
+<p>Welcome to Wallymart’s documentation. Get started by reading the README.md file in the main directory. The rest of these docs describe
+each component of Wallymart in detail.</p>
 <section id="main-app">
 <h2>Main App<a class="headerlink" href="#main-app" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="wallymart.wallymart_app.WallymartApp">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.wallymart_app.</code><code class="sig-name descname">WallymartApp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.wallymart_app.WallymartApp" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><p>The <a class="reference internal" href="#wallymart.wallymart_app.WallymartApp" title="wallymart.wallymart_app.WallymartApp"><code class="xref py py-class docutils literal notranslate"><span class="pre">WallymartApp</span></code></a> object controls the execution of the program.
+As the central object or controller, the WallymartApp instantiates the
+database and the logger and is responsible for storing the <a class="reference internal" href="api.html#wallymart.orm.credentials.Credentials" title="wallymart.orm.credentials.Credentials"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.orm.credentials.Credentials</span></code></a>
+and the <a class="reference internal" href="api.html#wallymart.utils.shopping_cart.ShoppingCart" title="wallymart.utils.shopping_cart.ShoppingCart"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.utils.shopping_cart.ShoppingCart</span></code></a>.</p>
+<p>It calls upon the <a class="reference internal" href="api.html#wallymart.site.pages.Pages" title="wallymart.site.pages.Pages"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.site.pages.Pages</span></code></a> class, which controls subprograms within
+each block. In the first phase, the user is prompted to choose whether to create
+an account or log in as a customer or employee. After authenticating, if the
+user is a <a class="reference internal" href="api.html#wallymart.orm.customer.Customer" title="wallymart.orm.customer.Customer"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.orm.customer.Customer</span></code></a>, he will be prompted to navigate through the <a class="reference internal" href="api.html#wallymart.site.portal.customer_portal.CustomerPortal" title="wallymart.site.portal.customer_portal.CustomerPortal"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.site.portal.customer_portal.CustomerPortal</span></code></a>
+pages. Otherwise, if the user is an :class:Employee, he will be prompted
+to navigate through the <a class="reference internal" href="api.html#wallymart.site.portal.employee_portal.EmployeePortal" title="wallymart.site.portal.employee_portal.EmployeePortal"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.site.portal.employee_portal.EmployeePortal</span></code></a> pages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>_logger</strong> (<em>logging.Logger</em>) – Stores an instance of the Logger class. This is used throughout     the execution of the program.</p></li>
+<li><p><strong>_customer_or_employeer</strong> (<em>str</em>) – Stores ‘1’ for customer, ‘2’ for employee. This     controls which loop the user enters after logging in.</p></li>
+<li><p><strong>_credentials</strong> (<a class="reference internal" href="api.html#wallymart.orm.credentials.Credentials" title="wallymart.orm.credentials.Credentials"><em>Credentials</em></a>) – Stores an instance of the <a class="reference internal" href="api.html#wallymart.orm.credentials.Credentials" title="wallymart.orm.credentials.Credentials"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.orm.credentials.Credentials</span></code></a> after the     user authenticates.</p></li>
+<li><p><strong>_authenticated</strong> (<em>bool</em>) – After authenticating is set to true. Logging out will set     this to False, which exits the program loops.</p></li>
+<li><p><strong>_shopping_cart</strong> – Stores an instance of the <code class="xref py py-class docutils literal notranslate"><span class="pre">ShoppingCart</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
 <dt id="wallymart.wallymart_app.WallymartApp.log">
 <code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">level</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.wallymart_app.WallymartApp.log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convenience function</p>
+<dd><p>This is a convenience function that displays the messages in the console.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="wallymart.wallymart_app.WallymartApp.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.wallymart_app.WallymartApp.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Skip login for customer:
-&gt;&gt;&gt; self._customer_or_employee = ‘1’
-&gt;&gt;&gt; self._authenticated = True  # use for testing
-&gt;&gt;&gt; self._credentials = Credentials(‘harrison’, ‘password’)
-&gt;&gt;&gt; self._credentials.set_user_id(1)</p>
-<p>Go directly to checkout as a customer:
-&gt;&gt;&gt; self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
-&gt;&gt;&gt; self._shopping_cart.set_customer_id(1)</p>
-<p>Skip login for employee:
-&gt;&gt;&gt; self._customer_or_employee = ‘2’
-&gt;&gt;&gt; self._authenticated = True  # use for testing
-&gt;&gt;&gt; self._credentials = Credentials(‘harrison’, ‘password’)
-&gt;&gt;&gt; self._credentials.set_user_id(1)</p>
+<dd><p>Execute the program.</p>
+<div class="line-block">
+<div class="line">For troubleshooting, use the following to skip to the desired location:</div>
+<div class="line">Be sure to set the credentials first</div>
+</div>
+<div class="line-block">
+<div class="line">Skip login for customer:</div>
+<div class="line">&gt;&gt;&gt; self._customer_or_employee = ‘1’</div>
+<div class="line">&gt;&gt;&gt; self._authenticated = True  # use for testing</div>
+<div class="line">&gt;&gt;&gt; self._credentials = Credentials(‘harrison’, ‘password’)</div>
+<div class="line">&gt;&gt;&gt; self._credentials.set_user_id(1)</div>
+</div>
+<div class="line-block">
+<div class="line">Go directly to checkout as a customer:</div>
+<div class="line">&gt;&gt;&gt; self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])</div>
+<div class="line">&gt;&gt;&gt; self._shopping_cart.set_customer_id(1)</div>
+</div>
+<div class="line-block">
+<div class="line">Skip login for employee:</div>
+<div class="line">&gt;&gt;&gt; self._customer_or_employee = ‘2’</div>
+<div class="line">&gt;&gt;&gt; self._authenticated = True  # use for testing</div>
+<div class="line">&gt;&gt;&gt; self._credentials = Credentials(‘harrison’, ‘password’)</div>
+<div class="line">&gt;&gt;&gt; self._credentials.set_user_id(1)</div>
+</div>
 </dd></dl>
 
 </dd></dl>

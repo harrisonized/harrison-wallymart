@@ -12,28 +12,7 @@ from wallymart.orm.product import Product
 
 
 class EmployeePortal:
-    """All methods are class methods so do not require instantiating the class
-    This class is meant to be inherited by Pages
-
-    Methods:
-        employee_home
-            (1) view items to deliver
-            (2) view products
-            (3) add new products
-            (4) update profile
-            (5) log out
-        delivery_page
-            (1) refresh orders view
-            (2) next page
-            (3) previous page
-            (4) examine order
-        add_products_page
-        employee_profile_page
-            (1) check data
-            (2) update first name
-            (3) update last name
-            (4) save changes
-            (5) exit without savin
+    """This class is meant to be inherited by Pages
     """
 
     # ----------------------------------------------------------------------
@@ -41,7 +20,9 @@ class EmployeePortal:
 
     @staticmethod
     def home(logger):
-
+        """Prompts the employee to view orders, products, add new products,
+        update profile, or log out.
+        """
         while True:
             choice = input(
                 "Please choose: "
@@ -71,12 +52,17 @@ class EmployeePortal:
 
     @classmethod
     def employee_home(cls):
-        """Requires that cls._logger be used as the logger
+        """Prompts the employee to view orders, products, add new products,
+        update profile, or log out. Calls upon the 
+        :meth:`wallymart.site.portal.employee_portal.EmployeePortal.home` method
+        and prevents name conflicts when inherited by Pages.
         """
         return cls.__home(cls._logger)
 
     @classmethod
     def delivery_page(cls, logger=None):
+        """Enables the employee to view orders.
+        """
         if logger is None:
             logger = cls._logger
 
@@ -134,7 +120,8 @@ class EmployeePortal:
 
     @classmethod
     def add_products_page(cls, logger=None):
-
+        """Enables the employee to add a new product to the Products table one at a time.
+        """
         if logger is None:
             logger = cls._logger
         database_connection = DatabaseConnection(f"products.csv")
@@ -214,6 +201,8 @@ class EmployeePortal:
 
     @classmethod
     def profile_page(cls, employee_id, logger=None):
+        """Employee Profile Page. Enables the employee to update their profile.
+        """
         if logger is None:
             logger = cls._logger
 
@@ -263,6 +252,8 @@ class EmployeePortal:
 
     @classmethod
     def employee_profile_page(cls, employee_id):
-        """Requires that cls._logger be used as the logger
+        """Enables the employee to update their profile. Calls upon the 
+        :meth:`wallymart.site.portal.employee_portal.EmployeePortal.profile_page`
+        method and prevents name conflicts when inherited by Pages.
         """
         return cls.__profile_page(employee_id, cls._logger)

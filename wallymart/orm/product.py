@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
 class Product:
-    """Container used to hold data from the database
+    """Container used to hold product information prior to writing it to the 
+    database. This information is entered by the employee and updated using
+    the appropriate getters and setters.
+
+    :ivar str product_name: The name of the product. This must be unique, since \
+    it is used to identify the product.
+    :ivar str description: A short description of the product.
+    :ivar int quantity: How much inventory is in stock.
+    :ivar float price: This is rounded to the nearest cent.
     """
     def __init__(self,
                  product_name='',

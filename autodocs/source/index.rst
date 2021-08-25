@@ -6,6 +6,8 @@
 Welcome to Wallymart
 ====================
 
+Welcome to Wallymart’s documentation. Get started by reading the README.md file in the main directory. The rest of these docs describe
+each component of Wallymart in detail.
 
 Main App
 --------
@@ -14,7 +16,6 @@ Main App
    :members:
    :inherited-members:
 
-
 Helper Classes
 --------------
 
@@ -22,8 +23,6 @@ If you are looking for information on a specific function, class or
 method, this part of the documentation is for you.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
    api
-
-

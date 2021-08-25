@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Entry point for command-line application
+"""Entry point for the command-line application
 """
 
 import os
@@ -16,6 +16,28 @@ from wallymart.site.pages import Pages
 
 
 class WallymartApp:
+    """The :class:`WallymartApp` object controls the execution of the program.
+    As the central object or controller, the WallymartApp instantiates the
+    database and the logger and is responsible for storing the :class:`wallymart.orm.credentials.Credentials`
+    and the :class:`wallymart.utils.shopping_cart.ShoppingCart`.
+
+    It calls upon the :class:`wallymart.site.pages.Pages` class, which controls subprograms within
+    each block. In the first phase, the user is prompted to choose whether to create
+    an account or log in as a customer or employee. After authenticating, if the
+    user is a :class:`wallymart.orm.customer.Customer`, he will be prompted to navigate through the :class:`wallymart.site.portal.customer_portal.CustomerPortal`
+    pages. Otherwise, if the user is an :class:Employee, he will be prompted
+    to navigate through the :class:`wallymart.site.portal.employee_portal.EmployeePortal` pages.
+
+    :ivar logging.Logger _logger: Stores an instance of the Logger class. This is used throughout \
+    the execution of the program.
+    :ivar str _customer_or_employeer: Stores '1' for customer, '2' for employee. This \
+    controls which loop the user enters after logging in.
+    :ivar Credentials _credentials: Stores an instance of the :class:`wallymart.orm.credentials.Credentials` after the \
+    user authenticates.
+    :ivar bool _authenticated: After authenticating is set to true. Logging out will set \
+    this to False, which exits the program loops.
+    :ivar _shopping_cart: Stores an instance of the :class:`ShoppingCart`
+    """
     def __init__(self, args=None, logger=None):
         self._log_filename = "wallymart"
         self._args = args
@@ -52,7 +74,7 @@ class WallymartApp:
         db_configurator.initialize_database()
 
     def _configure_log(self, args=None):
-        """Add:
+        """Adds the following:
         1. stream_handler to print messagese to console
         2. file_handler to save session in a log
         """
@@ -68,27 +90,31 @@ class WallymartApp:
     # Public
 
     def log(self, msg, level=None):
-        """Convenience function
+        """This is a convenience function that displays the messages in the console.
         """
         self._logger.log(msg, level)
 
     def run(self):
-        """
-        Skip login for customer:
-        >>> self._customer_or_employee = '1'
-        >>> self._authenticated = True  # use for testing
-        >>> self._credentials = Credentials('harrison', 'password')
-        >>> self._credentials.set_user_id(1)
+        """Execute the program.
 
-        Go directly to checkout as a customer:
-        >>> self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
-        >>> self._shopping_cart.set_customer_id(1)
+        | For troubleshooting, use the following to skip to the desired location:
+        | Be sure to set the credentials first
 
-        Skip login for employee:
-        >>> self._customer_or_employee = '2'
-        >>> self._authenticated = True  # use for testing
-        >>> self._credentials = Credentials('harrison', 'password')
-        >>> self._credentials.set_user_id(1)
+        | Skip login for customer:
+        | >>> self._customer_or_employee = '1'
+        | >>> self._authenticated = True  # use for testing
+        | >>> self._credentials = Credentials('harrison', 'password')
+        | >>> self._credentials.set_user_id(1)
+
+        | Go directly to checkout as a customer:
+        | >>> self._shopping_cart = ShoppingCart([OrderItem(1, 2), OrderItem(2, 3)])
+        | >>> self._shopping_cart.set_customer_id(1)
+
+        | Skip login for employee:
+        | >>> self._customer_or_employee = '2'
+        | >>> self._authenticated = True  # use for testing
+        | >>> self._credentials = Credentials('harrison', 'password')
+        | >>> self._credentials.set_user_id(1)
         """
 
         while not self._authenticated:

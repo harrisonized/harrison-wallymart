@@ -15,7 +15,7 @@ pip install rinohtype
 
 ## How To
 
-Autodocs was generated using Sphinx by following [this guide](https://medium.com/@richdayandnight/a-simple-tutorial-on-how-to-document-your-python-project-using-sphinx-and-rinohtype-177c22a15b5b).
+Autodocs were generated using Sphinx following [this guide](https://medium.com/@richdayandnight/a-simple-tutorial-on-how-to-document-your-python-project-using-sphinx-and-rinohtype-177c22a15b5b).
 
 ```django
 sphinx-quickstart
@@ -27,4 +27,4 @@ sphinx-quickstart
 > Project language [en]: 
 ```
 
-Afterward, I updated `source/index.rst`, added `source/api.rst`, and used `make html` to generate the docs.
+After setting up the `source/index.rst` and  `source/api.rst` , use  `make html` to generate the docs.

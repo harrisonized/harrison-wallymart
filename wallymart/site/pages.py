@@ -16,20 +16,21 @@ from .portal.employee_portal import EmployeePortal
 
 
 class Pages(CustomerPortal, EmployeePortal):
-    """All methods are class methods so do not require instantiating the class
+    """Controls the details of the program execution. Each method is implemented
+    as a series of while-loops that asks for user input and returns any
+    objects required by the main program.
 
-    Methods:
-        add_logger
-        home
-        signup_page
-        login_page
-        view_products
-            (1) refresh products view
-            (2) next page
-            (3) previous page
-            (4) add item to cart
-            (5) write a review
-            (6) view reviews
+    The methods in this class hold pages that can be accessed by both the customer
+    and employee. All methods are class methods, so they do not require instantiating
+    the class to run the method. A reference to the logger in :class:`wallymart.wallymart_app.WallymartApp` 
+    is saved as a class attribute so that the same logger instance is used throughout
+    the program.
+
+    The :class:`Pages` class is a superclass that inherits from
+    :class:`wallymart.site.portal.customer_portal.CustomerPortal` and 
+    :class:`wallymart.site.portal.employee_portal.EmployeePortal`, which hold
+    customer-specific or employee-specific pages, enabling
+    :class:`wallymart.wallymart_app.WallymartApp` to just import one object.
     """
     _logger = logging.getLogger(__name__)
 
@@ -38,13 +39,14 @@ class Pages(CustomerPortal, EmployeePortal):
 
     @classmethod
     def add_logger(cls, logger):
-        """Save Wallymart._logger to the class
+        """Save the reference to the logger stored in
+        :class:`wallymart.wallymart_app.WallymartApp`
         """
         cls._logger = logger
 
     @classmethod
     def home(cls, logger=None):
-        """Home page
+        """Prompts the customer or employee to create an account or log in.
         """
         if logger is None:
             logger = cls._logger
@@ -70,7 +72,9 @@ class Pages(CustomerPortal, EmployeePortal):
 
     @classmethod
     def signup_page(cls, customer_or_employee, logger=None):
-
+        """Prompts the customer or employee to enter a unique username
+        and choose a password. Saves the credentials to the database.
+        """
         if customer_or_employee=='1':
             user = 'customer'
         elif customer_or_employee=='2':
@@ -140,7 +144,10 @@ class Pages(CustomerPortal, EmployeePortal):
 
     @classmethod
     def login_page(cls, customer_or_employee, logger=None):
-        """Returns credentials, authenticated
+        """Prompts the customer or employee to enter credentials, then searches
+        the database for a match. If not found, reprompts the customer to enter again.
+        Otherwise, returns the entered credentials and sets the authenticated flag to True,
+        enabling the main program to exit the first loop.
         """
 
         if customer_or_employee=='1':
@@ -179,7 +186,9 @@ class Pages(CustomerPortal, EmployeePortal):
 
     @classmethod
     def products_page(cls, shopping_cart, customer_or_employee, logger=None):
-
+        """Enables the user to view rows of the products table. Additionally, customers 
+        can select an item to add to the cart or review an item.
+        """
         if logger is None:
             logger = cls._logger
 

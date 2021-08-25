@@ -38,6 +38,9 @@ extensions = [
 
 autosummary_generate = True  # Turn on sphinx.ext.autosummary
 
+# see: https://stackoverflow.com/questions/46263274/how-can-i-prevent-sphinx-from-displaying-the-full-path-to-my-class/66459610#66459610
+# add_module_names = False
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 

@@ -6,8 +6,11 @@ import logging
 import pandas as pd
 
 class DatabaseConfigurator:
-    """Define the database schema
-    Instantiates tables if they don't exist
+    """Responsible for creating any tables in the database that do not exist.
+    
+    :cvar dict filename_for_tablename: This determines the filenames of the tables to be created.
+    :ivar str data_dir: This is folder containing the database tables. It is set to \
+    "data" by default, but can be changed from :class:`WallymartApp`.
     """
     # config
     filename_for_table_name = {
@@ -116,7 +119,10 @@ class DatabaseConfigurator:
     # Public
 
     def initialize_database(self):
-        os.makedirs('data', exist_ok=True)
+        """Iterates through all of the private _create_table methods to create \
+        any missing tables.
+        """
+        os.makedirs(self.data_dir, exist_ok=True)
         self._create_customer_credentials_table()
         self._create_customers_table()
         self._create_employee_credentials_table()

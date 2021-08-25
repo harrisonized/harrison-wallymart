@@ -38,68 +38,207 @@
 <p>This part of the documentation covers all classes and public methods.</p>
 <section id="site">
 <h2>Site<a class="headerlink" href="#site" title="Permalink to this headline">¶</a></h2>
+<p>Controls the details of the program execution.</p>
 <dl class="py class">
 <dt id="wallymart.site.pages.Pages">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.site.pages.</code><code class="sig-name descname">Pages</code><a class="headerlink" href="#wallymart.site.pages.Pages" title="Permalink to this definition">¶</a></dt>
-<dd><p>All methods are class methods so do not require instantiating the class</p>
-<dl>
-<dt>Methods:</dt><dd><p>add_logger
-home
-signup_page
-login_page
-view_products</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>refresh products view</p></li>
-<li><p>next page</p></li>
-<li><p>previous page</p></li>
-<li><p>add item to cart</p></li>
-<li><p>write a review</p></li>
-<li><p>view reviews</p></li>
-</ol>
-</div></blockquote>
-</dd>
-</dl>
+<dd><p>Controls the details of the program execution. Each method is implemented
+as a series of while-loops that asks for user input and returns any
+objects required by the main program.</p>
+<p>The methods in this class hold pages that can be accessed by both the customer
+and employee. All methods are class methods, so they do not require instantiating
+the class to run the method. A reference to the logger in <a class="reference internal" href="index.html#wallymart.wallymart_app.WallymartApp" title="wallymart.wallymart_app.WallymartApp"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.wallymart_app.WallymartApp</span></code></a> 
+is saved as a class attribute so that the same logger instance is used throughout
+the program.</p>
+<p>The <a class="reference internal" href="#wallymart.site.pages.Pages" title="wallymart.site.pages.Pages"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pages</span></code></a> class is a superclass that inherits from
+<a class="reference internal" href="#wallymart.site.portal.customer_portal.CustomerPortal" title="wallymart.site.portal.customer_portal.CustomerPortal"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.site.portal.customer_portal.CustomerPortal</span></code></a> and 
+<a class="reference internal" href="#wallymart.site.portal.employee_portal.EmployeePortal" title="wallymart.site.portal.employee_portal.EmployeePortal"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.site.portal.employee_portal.EmployeePortal</span></code></a>, which hold
+customer-specific or employee-specific pages, enabling
+<a class="reference internal" href="index.html#wallymart.wallymart_app.WallymartApp" title="wallymart.wallymart_app.WallymartApp"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.wallymart_app.WallymartApp</span></code></a> to just import one object.</p>
 <dl class="py method">
 <dt id="wallymart.site.pages.Pages.add_logger">
 <em class="property">classmethod </em><code class="sig-name descname">add_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.add_logger" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save Wallymart._logger to the class</p>
+<dd><p>Save the reference to the logger stored in
+<a class="reference internal" href="index.html#wallymart.wallymart_app.WallymartApp" title="wallymart.wallymart_app.WallymartApp"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.wallymart_app.WallymartApp</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.pages.Pages.add_products_page">
+<em class="property">classmethod </em><code class="sig-name descname">add_products_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.add_products_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the employee to add a new product to the Products table one at a time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.pages.Pages.checkout_page">
+<em class="property">classmethod </em><code class="sig-name descname">checkout_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shopping_cart</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.checkout_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the customer to view the order items in the shopping cart,
+then choose whether to submit the order or cancel the cart. If the customer
+submits the order, prompts the customer for credit card information.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="wallymart.site.pages.Pages.customer_home">
 <em class="property">classmethod </em><code class="sig-name descname">customer_home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.customer_home" title="Permalink to this definition">¶</a></dt>
-<dd><p>Requires that cls._logger be used as the logger</p>
+<dd><p>Prompts the customer to view products, checkout, update profile, or log out. Calls upon the 
+<a class="reference internal" href="#wallymart.site.portal.customer_portal.CustomerPortal.home" title="wallymart.site.portal.customer_portal.CustomerPortal.home"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wallymart.site.portal.customer_portal.CustomerPortal.home()</span></code></a> method
+and prevents name conflicts when inherited by Pages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="wallymart.site.pages.Pages.customer_profile_page">
 <em class="property">classmethod </em><code class="sig-name descname">customer_profile_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.customer_profile_page" title="Permalink to this definition">¶</a></dt>
-<dd><p>Requires that cls._logger be used as the logger</p>
+<dd><p>Enables the customer to update their profile. Calls upon the 
+<a class="reference internal" href="#wallymart.site.portal.customer_portal.CustomerPortal.profile_page" title="wallymart.site.portal.customer_portal.CustomerPortal.profile_page"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wallymart.site.portal.customer_portal.CustomerPortal.profile_page()</span></code></a>
+method and prevents name conflicts when inherited by Pages.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.pages.Pages.delivery_page">
+<em class="property">classmethod </em><code class="sig-name descname">delivery_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.delivery_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the employee to view orders.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="wallymart.site.pages.Pages.employee_home">
 <em class="property">classmethod </em><code class="sig-name descname">employee_home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.employee_home" title="Permalink to this definition">¶</a></dt>
-<dd><p>Requires that cls._logger be used as the logger</p>
+<dd><p>Prompts the employee to view orders, products, add new products,
+update profile, or log out. Calls upon the 
+<a class="reference internal" href="#wallymart.site.portal.employee_portal.EmployeePortal.home" title="wallymart.site.portal.employee_portal.EmployeePortal.home"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wallymart.site.portal.employee_portal.EmployeePortal.home()</span></code></a> method
+and prevents name conflicts when inherited by Pages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="wallymart.site.pages.Pages.employee_profile_page">
 <em class="property">classmethod </em><code class="sig-name descname">employee_profile_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">employee_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.employee_profile_page" title="Permalink to this definition">¶</a></dt>
-<dd><p>Requires that cls._logger be used as the logger</p>
+<dd><p>Enables the employee to update their profile. Calls upon the 
+<a class="reference internal" href="#wallymart.site.portal.employee_portal.EmployeePortal.profile_page" title="wallymart.site.portal.employee_portal.EmployeePortal.profile_page"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wallymart.site.portal.employee_portal.EmployeePortal.profile_page()</span></code></a>
+method and prevents name conflicts when inherited by Pages.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="wallymart.site.pages.Pages.home">
 <em class="property">classmethod </em><code class="sig-name descname">home</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.home" title="Permalink to this definition">¶</a></dt>
-<dd><p>Home page</p>
+<dd><p>Prompts the customer or employee to create an account or log in.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="wallymart.site.pages.Pages.login_page">
 <em class="property">classmethod </em><code class="sig-name descname">login_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_or_employee</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.login_page" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns credentials, authenticated</p>
+<dd><p>Prompts the customer or employee to enter credentials, then searches
+the database for a match. If not found, reprompts the customer to enter again.
+Otherwise, returns the entered credentials and sets the authenticated flag to True,
+enabling the main program to exit the first loop.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.pages.Pages.products_page">
+<em class="property">classmethod </em><code class="sig-name descname">products_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shopping_cart</span></em>, <em class="sig-param"><span class="n">customer_or_employee</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.products_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the user to view rows of the products table. Additionally, customers 
+can select an item to add to the cart or review an item.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.pages.Pages.profile_page">
+<em class="property">classmethod </em><code class="sig-name descname">profile_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.profile_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the customer to update their profile.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.pages.Pages.signup_page">
+<em class="property">classmethod </em><code class="sig-name descname">signup_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_or_employee</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.pages.Pages.signup_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prompts the customer or employee to enter a unique username
+and choose a password. Saves the credentials to the database.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="wallymart.site.portal.customer_portal.CustomerPortal">
+<em class="property">class </em><code class="sig-prename descclassname">wallymart.site.portal.customer_portal.</code><code class="sig-name descname">CustomerPortal</code><a class="headerlink" href="#wallymart.site.portal.customer_portal.CustomerPortal" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is meant to be inherited by Pages</p>
+<dl class="py method">
+<dt id="wallymart.site.portal.customer_portal.CustomerPortal.checkout_page">
+<em class="property">classmethod </em><code class="sig-name descname">checkout_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shopping_cart</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.customer_portal.CustomerPortal.checkout_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the customer to view the order items in the shopping cart,
+then choose whether to submit the order or cancel the cart. If the customer
+submits the order, prompts the customer for credit card information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.customer_portal.CustomerPortal.customer_home">
+<em class="property">classmethod </em><code class="sig-name descname">customer_home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.customer_portal.CustomerPortal.customer_home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prompts the customer to view products, checkout, update profile, or log out. Calls upon the 
+<a class="reference internal" href="#wallymart.site.portal.customer_portal.CustomerPortal.home" title="wallymart.site.portal.customer_portal.CustomerPortal.home"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wallymart.site.portal.customer_portal.CustomerPortal.home()</span></code></a> method
+and prevents name conflicts when inherited by Pages.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.customer_portal.CustomerPortal.customer_profile_page">
+<em class="property">classmethod </em><code class="sig-name descname">customer_profile_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.customer_portal.CustomerPortal.customer_profile_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the customer to update their profile. Calls upon the 
+<a class="reference internal" href="#wallymart.site.portal.customer_portal.CustomerPortal.profile_page" title="wallymart.site.portal.customer_portal.CustomerPortal.profile_page"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wallymart.site.portal.customer_portal.CustomerPortal.profile_page()</span></code></a>
+method and prevents name conflicts when inherited by Pages.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.customer_portal.CustomerPortal.home">
+<em class="property">static </em><code class="sig-name descname">home</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.customer_portal.CustomerPortal.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Customer Home Page. Prompts the customer to view products, checkout,
+update profile, or log out.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.customer_portal.CustomerPortal.profile_page">
+<em class="property">classmethod </em><code class="sig-name descname">profile_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.customer_portal.CustomerPortal.profile_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the customer to update their profile.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="wallymart.site.portal.employee_portal.EmployeePortal">
+<em class="property">class </em><code class="sig-prename descclassname">wallymart.site.portal.employee_portal.</code><code class="sig-name descname">EmployeePortal</code><a class="headerlink" href="#wallymart.site.portal.employee_portal.EmployeePortal" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is meant to be inherited by Pages</p>
+<dl class="py method">
+<dt id="wallymart.site.portal.employee_portal.EmployeePortal.add_products_page">
+<em class="property">classmethod </em><code class="sig-name descname">add_products_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.employee_portal.EmployeePortal.add_products_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the employee to add a new product to the Products table one at a time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.employee_portal.EmployeePortal.delivery_page">
+<em class="property">classmethod </em><code class="sig-name descname">delivery_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.employee_portal.EmployeePortal.delivery_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the employee to view orders.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.employee_portal.EmployeePortal.employee_home">
+<em class="property">classmethod </em><code class="sig-name descname">employee_home</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.employee_portal.EmployeePortal.employee_home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prompts the employee to view orders, products, add new products,
+update profile, or log out. Calls upon the 
+<a class="reference internal" href="#wallymart.site.portal.employee_portal.EmployeePortal.home" title="wallymart.site.portal.employee_portal.EmployeePortal.home"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wallymart.site.portal.employee_portal.EmployeePortal.home()</span></code></a> method
+and prevents name conflicts when inherited by Pages.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.employee_portal.EmployeePortal.employee_profile_page">
+<em class="property">classmethod </em><code class="sig-name descname">employee_profile_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">employee_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.employee_portal.EmployeePortal.employee_profile_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the employee to update their profile. Calls upon the 
+<a class="reference internal" href="#wallymart.site.portal.employee_portal.EmployeePortal.profile_page" title="wallymart.site.portal.employee_portal.EmployeePortal.profile_page"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wallymart.site.portal.employee_portal.EmployeePortal.profile_page()</span></code></a>
+method and prevents name conflicts when inherited by Pages.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.employee_portal.EmployeePortal.home">
+<em class="property">static </em><code class="sig-name descname">home</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.employee_portal.EmployeePortal.home" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prompts the employee to view orders, products, add new products,
+update profile, or log out.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.site.portal.employee_portal.EmployeePortal.profile_page">
+<em class="property">classmethod </em><code class="sig-name descname">profile_page</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">employee_id</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.site.portal.employee_portal.EmployeePortal.profile_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Employee Profile Page. Enables the employee to update their profile.</p>
 </dd></dl>
 
 </dd></dl>
@@ -107,42 +246,122 @@ view_products</p>
 </section>
 <section id="startup">
 <h2>Startup<a class="headerlink" href="#startup" title="Permalink to this headline">¶</a></h2>
+<p>Startup module that configures required items used throughout the lifecycle of the program.</p>
 <dl class="py class">
 <dt id="wallymart.startup.database_configurator.DatabaseConfigurator">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.startup.database_configurator.</code><code class="sig-name descname">DatabaseConfigurator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_dir</span><span class="o">=</span><span class="default_value">'data'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.startup.database_configurator.DatabaseConfigurator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Define the database schema
-Instantiates tables if they don’t exist</p>
+<dd><p>Responsible for creating any tables in the database that do not exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename_for_tablename</strong> (<em>dict</em>) – This determines the filenames of the tables to be created.</p></li>
+<li><p><strong>data_dir</strong> (<em>str</em>) – This is folder containing the database tables. It is set to     “data” by default, but can be changed from <code class="xref py py-class docutils literal notranslate"><span class="pre">WallymartApp</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wallymart.startup.database_configurator.DatabaseConfigurator.initialize_database">
+<code class="sig-name descname">initialize_database</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.startup.database_configurator.DatabaseConfigurator.initialize_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through all of the private _create_table methods to create         any missing tables.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt id="wallymart.startup.logger_configurator.LoggerConfigurator">
-<em class="property">class </em><code class="sig-prename descclassname">wallymart.startup.logger_configurator.</code><code class="sig-name descname">LoggerConfigurator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">'log'</span></em>, <em class="sig-param"><span class="n">level</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.startup.logger_configurator.LoggerConfigurator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wrapper around logger to configure the logger</p>
+<em class="property">class </em><code class="sig-prename descclassname">wallymart.startup.logger_configurator.</code><code class="sig-name descname">LoggerConfigurator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">log_dir</span><span class="o">=</span><span class="default_value">'log'</span></em>, <em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">'log'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.startup.logger_configurator.LoggerConfigurator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Responsible for instantiating the logger used throughout the lifecycle
+of the main program. The logger is configured with a stream_handler, which 
+displays messages to the console, and a file_handler, which outputs the
+messages to a log file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>msg_format</strong> (<em>str</em>) – Formats the output string</p></li>
+<li><p><strong>msg_format</strong> – Formats the date. Default is “%Y%m%d %H:%M:%S”</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – Stores an instance of the logger class.</p></li>
+<li><p><strong>log_dir</strong> (<em>str</em>) – The directory of log files.</p></li>
+<li><p><strong>filename</strong> (<em>str</em>) – The base filename of the log file. Note that the actual filename     will include the start timestamp of the main program.</p></li>
+<li><p><strong>level</strong> – Can use this to toggle between logging.INFO and logging.DEBUG</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wallymart.startup.logger_configurator.LoggerConfigurator.add_file_handler">
+<code class="sig-name descname">add_file_handler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.startup.logger_configurator.LoggerConfigurator.add_file_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables logger to write to the log file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.startup.logger_configurator.LoggerConfigurator.add_stream_handler">
+<code class="sig-name descname">add_stream_handler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.startup.logger_configurator.LoggerConfigurator.add_stream_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables logger to output to the console.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
 <section id="utils">
 <h2>Utils<a class="headerlink" href="#utils" title="Permalink to this headline">¶</a></h2>
+<p>Utilities used by Pages or the collection objects in ORM.</p>
 <dl class="py class">
 <dt id="wallymart.utils.database_connection.DatabaseConnection">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.utils.database_connection.</code><code class="sig-name descname">DatabaseConnection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">data_dir</span><span class="o">=</span><span class="default_value">'data'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.database_connection.DatabaseConnection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read/write the database
-View items</p>
+<dd><p>Controls read/write to the database and enables viewing rows 5 at a time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – The filename of the database to connect to.</p></li>
+<li><p><strong>data_dir</strong> (<em>str</em>) – The directory of the database.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>table</strong> (<em>pd.DataFrame</em>) – Keeps a copy of the database in memory.</p></li>
+<li><p><strong>num_items_per_page</strong> (<em>int</em>) – Specify the number of lines in the database to display     in a single view.</p></li>
+<li><p><strong>page</strong> (<em>int</em>) – Specifies which page.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wallymart.utils.database_connection.DatabaseConnection.append">
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.database_connection.DatabaseConnection.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends to the table. This method updates the temporary view and also
+writes to the CSV file in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.Dataframe</em>) – The dataframe containing the rows to be appended.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.utils.database_connection.DatabaseConnection.get_view">
+<code class="sig-name descname">get_view</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.database_connection.DatabaseConnection.get_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used for displaying products to customers and orders to employees. Default view displays
+5 rows at a time.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.utils.database_connection.DatabaseConnection.next_page">
+<code class="sig-name descname">next_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.database_connection.DatabaseConnection.next_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scroll to the next view. Does nothing if used on the last view.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt id="wallymart.utils.database_connection.DatabaseConnection.overwrite">
 <code class="sig-name descname">overwrite</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.database_connection.DatabaseConnection.overwrite" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is a limitation of pandas, cannot just write to a single row</p>
+<dd><p>Overwrites the entire file. This is required for updating existing rows
+in the database, because it is a limitation that pandas cannot just overwrite a single row
+in a CSV file.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt id="wallymart.utils.database_connection.DatabaseConnection.prev_page">
+<code class="sig-name descname">prev_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.database_connection.DatabaseConnection.prev_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scroll to the previous view. Does nothing if used on the first view.</p>
 </dd></dl>
 
-<dl class="py class">
-<dt id="wallymart.utils.credential_encoder.CredentialEncoder">
-<em class="property">class </em><code class="sig-prename descclassname">wallymart.utils.credential_encoder.</code><code class="sig-name descname">CredentialEncoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em>, <em class="sig-param"><span class="n">hash_algorithm</span><span class="o">=</span><span class="default_value">'md5'</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">'utf-8'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.credential_encoder.CredentialEncoder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use this before saving credentials to database</p>
-<p>Note: one-way hashing will mean the user is unable to retrieve their data if they forget
-Should probably make this a 2-way hashing…
-This might be okay for now</p>
 </dd></dl>
 
 <dl class="py class">
@@ -168,43 +387,263 @@ This might be okay for now</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt id="wallymart.utils.credential_encoder.CredentialEncoder">
+<em class="property">class </em><code class="sig-prename descclassname">wallymart.utils.credential_encoder.</code><code class="sig-name descname">CredentialEncoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em>, <em class="sig-param"><span class="n">hash_algorithm</span><span class="o">=</span><span class="default_value">'md5'</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">'utf-8'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.credential_encoder.CredentialEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is called by the <code class="xref py py-class docutils literal notranslate"><span class="pre">Credentials</span></code> class to hash an item
+prior to storing it. This is great for security. However, one-way hashing
+means the user will be unable to retrieve their passsword if they forget.
+In this scenario, the user should make a new account. Otherwise, a database
+administrator can help with account deletion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> (<em>str</em>) – Stores the item to be hashed. The item is hashed at     initialization.</p></li>
+<li><p><strong>hash_algorithm</strong> (<em>str</em>) – Choose between “md5” and “sha256”</p></li>
+<li><p><strong>encoding</strong> (<em>str</em>) – Default is ‘utf-8’, but you can change this to arrive     at a different hash.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="wallymart.utils.credential_encoder.CredentialEncoder.encode">
+<code class="sig-name descname">encode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hash_algorithm</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.utils.credential_encoder.CredentialEncoder.encode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="orm">
 <h2>ORM<a class="headerlink" href="#orm" title="Permalink to this headline">¶</a></h2>
+<p>Container classes to store information prior to being written to the database.</p>
 <dl class="py class">
 <dt id="wallymart.orm.credentials.Credentials">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.orm.credentials.</code><code class="sig-name descname">Credentials</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">password</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.credentials.Credentials" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This is instantiated during the signup or login process and passed
+to the main program. It holds the user_id and username of the user
+during the lifecycle of the program.</p>
+<dl class="py method">
+<dt id="wallymart.orm.credentials.Credentials.get_user_id">
+<code class="sig-name descname">get_user_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.credentials.Credentials.get_user_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the user_id. This is an index used to match customer information
+across tables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.credentials.Credentials.get_username">
+<code class="sig-name descname">get_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.credentials.Credentials.get_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the username. This is used to display the username in the customer or
+employee home pages.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.credentials.Credentials.set_password">
+<code class="sig-name descname">set_password</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">password</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.credentials.Credentials.set_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the password. Note that passwords are immediately hashed using
+<a class="reference internal" href="#wallymart.utils.credential_encoder.CredentialEncoder" title="wallymart.utils.credential_encoder.CredentialEncoder"><code class="xref py py-class docutils literal notranslate"><span class="pre">wallymart.utils.credential_encoder.CredentialEncoder</span></code></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.credentials.Credentials.set_username">
+<code class="sig-name descname">set_username</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.credentials.Credentials.set_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the username</p>
+</dd></dl>
+
+</dd></dl>
 
 <dl class="py class">
 <dt id="wallymart.orm.customer.Customer">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.orm.customer.</code><code class="sig-name descname">Customer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">first_name</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">last_name</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">street_address</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">zip_code</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Container used to hold data from the database
-Should be instantiated when authenticated</p>
+<dd><p>This is used to hold customer profile information. It intentionally
+excludes information about the customer’s username, and password.
+For those, see the <code class="xref py py-class docutils literal notranslate"><span class="pre">Credentials</span></code> class.</p>
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.get_customer_id">
+<code class="sig-name descname">get_customer_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.get_customer_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the customer_id. This is redundant to credentials.user_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.get_first_name">
+<code class="sig-name descname">get_first_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.get_first_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the first name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.get_last_name">
+<code class="sig-name descname">get_last_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.get_last_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the last name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.get_street_address">
+<code class="sig-name descname">get_street_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.get_street_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the street address.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.get_zip_code">
+<code class="sig-name descname">get_zip_code</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.get_zip_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the zip code</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.set_customer_id">
+<code class="sig-name descname">set_customer_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.set_customer_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the customer_id. This should only be controlled by the program
+by passing in the value from credentials.user_id.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.set_first_name">
+<code class="sig-name descname">set_first_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">first_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.set_first_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the first_name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.set_last_name">
+<code class="sig-name descname">set_last_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">last_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.set_last_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the last_name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.set_street_address">
+<code class="sig-name descname">set_street_address</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">street_address</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.set_street_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the street address. This should exclude city and state info.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.customer.Customer.set_zip_code">
+<code class="sig-name descname">set_zip_code</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">zip_code</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.customer.Customer.set_zip_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the zip_code.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt id="wallymart.orm.employee.Employee">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.orm.employee.</code><code class="sig-name descname">Employee</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">employee_id</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">first_name</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">last_name</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.employee.Employee" title="Permalink to this definition">¶</a></dt>
-<dd><p>Container used to hold data from the database
-Should be instantiated when authenticated</p>
+<dd><p>This is used to hold employee profile information. It intentionally
+excludes information about the employee’s username, and password.
+For those, see the <code class="xref py py-class docutils literal notranslate"><span class="pre">Credentials</span></code> class.</p>
+<dl class="py method">
+<dt id="wallymart.orm.employee.Employee.get_employee_id">
+<code class="sig-name descname">get_employee_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.employee.Employee.get_employee_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the employee_id. This is redundant to credentials.user_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.employee.Employee.get_first_name">
+<code class="sig-name descname">get_first_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.employee.Employee.get_first_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the first name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.employee.Employee.get_last_name">
+<code class="sig-name descname">get_last_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.employee.Employee.get_last_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the last name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.employee.Employee.set_employee_id">
+<code class="sig-name descname">set_employee_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">employee_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.employee.Employee.set_employee_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the employee_id. This should only be controlled by the program
+by passing in the value from credentials.user_id.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.employee.Employee.set_first_name">
+<code class="sig-name descname">set_first_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">first_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.employee.Employee.set_first_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the first_name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.employee.Employee.set_last_name">
+<code class="sig-name descname">set_last_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">last_name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.employee.Employee.set_last_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the last_name</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt id="wallymart.orm.order_item.OrderItem">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.orm.order_item.</code><code class="sig-name descname">OrderItem</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">product_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">quantity</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.order_item.OrderItem" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="py method">
+<dt id="wallymart.orm.order_item.OrderItem.get_product_id">
+<code class="sig-name descname">get_product_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.order_item.OrderItem.get_product_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the product_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.order_item.OrderItem.get_quantity">
+<code class="sig-name descname">get_quantity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.order_item.OrderItem.get_quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the user-entered quantity</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.order_item.OrderItem.set_product_id">
+<code class="sig-name descname">set_product_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">product_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.order_item.OrderItem.set_product_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the product_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.order_item.OrderItem.set_quantity">
+<code class="sig-name descname">set_quantity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">quantity</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.order_item.OrderItem.set_quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the user-entered quantity</p>
+</dd></dl>
+
+</dd></dl>
 
 <dl class="py class">
 <dt id="wallymart.orm.product.Product">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.orm.product.</code><code class="sig-name descname">Product</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">product_name</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">description</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">quantity</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">price</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.product.Product" title="Permalink to this definition">¶</a></dt>
-<dd><p>Container used to hold data from the database</p>
+<dd><p>Container used to hold product information prior to writing it to the 
+database. This information is entered by the employee and updated using
+the appropriate getters and setters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>product_name</strong> (<em>str</em>) – The name of the product. This must be unique, since     it is used to identify the product.</p></li>
+<li><p><strong>description</strong> (<em>str</em>) – A short description of the product.</p></li>
+<li><p><strong>quantity</strong> (<em>int</em>) – How much inventory is in stock.</p></li>
+<li><p><strong>price</strong> (<em>float</em>) – This is rounded to the nearest cent.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt id="wallymart.orm.review.Review">
 <em class="property">class </em><code class="sig-prename descclassname">wallymart.orm.review.</code><code class="sig-name descname">Review</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">product_id</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.review.Review" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Container used to hold review information prior to writing it to the
+database. This information is entered by the customer. Since we can use
+the database to get the rest of the product information, the 
+<a class="reference internal" href="#wallymart.orm.review.Review" title="wallymart.orm.review.Review"><code class="xref py py-class docutils literal notranslate"><span class="pre">Review</span></code></a> class only stores the product_id rather than the full
+product information.</p>
+<dl class="py method">
+<dt id="wallymart.orm.review.Review.get_product_id">
+<code class="sig-name descname">get_product_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.review.Review.get_product_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the product_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.review.Review.get_review_text">
+<code class="sig-name descname">get_review_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.review.Review.get_review_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the user-entered review_text</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.review.Review.set_product_id">
+<code class="sig-name descname">set_product_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">product_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.review.Review.set_product_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the product_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="wallymart.orm.review.Review.set_review_text">
+<code class="sig-name descname">set_review_text</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">review_text</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wallymart.orm.review.Review.set_review_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the user-entered review_text</p>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 </section>

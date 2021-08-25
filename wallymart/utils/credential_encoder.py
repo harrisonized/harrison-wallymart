@@ -4,11 +4,17 @@ import hashlib
 
 
 class CredentialEncoder:
-    """Use this before saving credentials to database
-    
-    Note: one-way hashing will mean the user is unable to retrieve their data if they forget
-    Should probably make this a 2-way hashing...
-    This might be okay for now
+    """This is called by the :class:`Credentials` class to hash an item
+    prior to storing it. This is great for security. However, one-way hashing
+    means the user will be unable to retrieve their passsword if they forget.
+    In this scenario, the user should make a new account. Otherwise, a database
+    administrator can help with account deletion.
+
+    :parameter str item: Stores the item to be hashed. The item is hashed at \
+    initialization.
+    :parameter str hash_algorithm: Choose between "md5" and "sha256"
+    :parameter str encoding: Default is 'utf-8', but you can change this to arrive \
+    at a different hash.
     """
     def __init__(self, item, hash_algorithm='md5', encoding='utf-8'):
         self.item = item
@@ -17,6 +23,8 @@ class CredentialEncoder:
         self.encode()
         
     def encode(self, hash_algorithm=None):
+        """
+        """
         if hash_algorithm is None:
             hash_algorithm = self.hash_algorithm
         switch = {
