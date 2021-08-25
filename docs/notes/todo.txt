@@ -1,0 +1,12 @@
+Done:
+1. UML diagram
+2. Architecture Flow Diagram
+3. Architecture Layer Diagram
+4. Brief use cases
+5. Sequence Diagrams
+	- customer
+	- employee
+6. Fully-dressed use cases
+
+Do this on Wednesday + final touches:1. Code documentation
+- maybe can use sphinx for this?
