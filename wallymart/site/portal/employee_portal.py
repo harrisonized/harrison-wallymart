@@ -19,7 +19,7 @@ class EmployeePortal:
         employee_home
             (1) view items to deliver
             (2) view products
-            (3) add products
+            (3) add new products
             (4) update profile
             (5) log out
         delivery_page
@@ -47,7 +47,7 @@ class EmployeePortal:
                 "Please choose: "
                 "(1) view items to deliver, "
                 "(2) view_products, "
-                "(3) add products, "
+                "(3) add new products, "
                 "(4) update profile, "
                 "(5) log out: "
             )
@@ -59,7 +59,7 @@ class EmployeePortal:
             "Please choose: "
             "(1) view items to deliver, "
             "(2) view_products, "
-            "(3) add products, "
+            "(3) add new products, "
             "(4) update profile, "
             "(5) log out: "
             f"{choice}"

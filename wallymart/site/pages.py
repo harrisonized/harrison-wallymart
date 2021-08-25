@@ -9,6 +9,8 @@ from wallymart.utils.database_connection import DatabaseConnection
 from wallymart.orm.credentials import Credentials
 from wallymart.orm.customer import Customer
 from wallymart.orm.employee import Employee
+from wallymart.orm.order_item import OrderItem
+from wallymart.orm.review import Review
 from .portal.customer_portal import CustomerPortal
 from .portal.employee_portal import EmployeePortal
 

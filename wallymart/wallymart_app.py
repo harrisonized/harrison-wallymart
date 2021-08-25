@@ -104,6 +104,7 @@ class WallymartApp:
 
         # customer portal
         if self._customer_or_employee == '1':
+            self._shopping_cart.set_customer_id(self._credentials.get_user_id())
             while self._authenticated:
                 customer_choice = Pages.customer_home()
 

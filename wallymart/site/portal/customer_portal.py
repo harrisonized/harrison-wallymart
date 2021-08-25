@@ -9,8 +9,6 @@ import pandas as pd
 
 from wallymart.utils.database_connection import DatabaseConnection
 from wallymart.orm.customer import Customer
-from wallymart.orm.order_item import OrderItem
-from wallymart.orm.review import Review
 
 
 class CustomerPortal:
